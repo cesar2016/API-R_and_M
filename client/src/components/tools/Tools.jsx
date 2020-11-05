@@ -69,7 +69,7 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
   const [open, setOpen] = React.useState(false);
 
   
-console.log(tools.categoryId)
+console.log('aver si cambea ',all_tools)
  
 
   const handleOpen = (item) => {
@@ -111,12 +111,12 @@ console.log(tools.categoryId)
        
 
     }else{      
-      insertTools(tools);
-      getAllTools();
+      insertTools(tools);     
       setOpen(false)
 
     }
      
+    getAllTools();
   }
 
 
@@ -260,14 +260,14 @@ console.log(tools.categoryId)
        <TableHead>
          <TableRow>
            <TableCell>Descripción</TableCell>
-           <TableCell align="center">Fecha De Modificación</TableCell>
-           <TableCell align="center">Precio</TableCell>
+           <TableCell align="center">Desacripcion</TableCell>
+           <TableCell align="center">Stock</TableCell>
            <TableCell align="center">Categoria</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
        <TableBody>
-         {all_tools ? all_tools.map((row) => (
+         {all_tools.length > 0 ? all_tools.map((row) => (
            <TableRow key={row.name}>
              <TableCell component="th" scope="row">
                {row.name}

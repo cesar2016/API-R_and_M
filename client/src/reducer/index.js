@@ -55,10 +55,10 @@ const reducer = (state = initialState, action) => {
         all_tools:  [...state.all_tools, action.payload] //Usar esto para actualizar el estado
       };
 
-      case UPDATE_TOOLS:
+      case UPDATE_TOOLS:       
       return {
         ...state,
-      all_tools: action.payload,
+      all_tools:  [...state.all_tools, action.payload]
       };
 
       case LOGIN:
