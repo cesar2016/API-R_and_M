@@ -32,14 +32,15 @@ server.post('/insertTools', (req, res, next) => {
   })
 
 server.put('/update/:id', (req, res, next) => {
-    const { name, description, stock } = req.body
-    console.log(name, description, stock)
+    const { name, description, stock, categoryId } = req.body
+    //console.log(name, description, stock, categoryId)
     Tools.findOne({where: {id: req.params.id}})
     .then(tools => {
 		tools.update({
 			name,
 			description,
-			stock,
+            stock,
+            categoryId
         })
         return tools
 	})
@@ -52,6 +53,20 @@ server.put('/update/:id', (req, res, next) => {
     })
 });
 
+// server.delete('/delete/:id', (req, res, next) => {
+//     const id = req.params.id;
+//     tools.destroy({ where: { id: id } })
+//       .then((num) => {
+//         if (num > 0) {
+//           return res.send({ message: `Se elimino la herramienta Nº: ${id}` })
+//         }
+//         return res.send({
+//           message: `No se pudo eliminar la herramienta Nº : ${id}`,
+//         })
+//       })
+//       .catch((error) => next(error));
+//   })
+  
 
 //**************************************
 //|                CATEGORIES          |
