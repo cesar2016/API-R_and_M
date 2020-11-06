@@ -31,7 +31,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { getClient } from '../../actions/index';
+import { getClient, deleteClient } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -53,7 +53,7 @@ const useStyles = makeStyles({
 //   { name:'Ricardo', lastname:'Fort',dni:'38192012',phone:'02214914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},
 //   { name:'Alejandro',lastname:'Fantino',dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
 //   { name:'Ricardo',lastname:'Darin',dni:'38192012',phone:'0221-4914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},];
-function Customers({ getClient, all_client }) {
+function Customers({ getClient, all_client, deleteClient, onClose }) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -80,9 +80,8 @@ function Customers({ getClient, all_client }) {
 
   const handleSubmit = function(e){
     e.preventDefault();
-    // insertTools(tools);
-    // getAllTools();
-    // onClose(false);
+    onClose(false);
+    deleteClient(client)
   }
 
   const handleChangeClient = function(e) {
@@ -255,7 +254,7 @@ function Customers({ getClient, all_client }) {
              <IconButton aria-label="edit" onClick={() => handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete">
+             <IconButton aria-label="delete" onClick={() => deleteClient(row)}>
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -280,6 +279,7 @@ function Customers({ getClient, all_client }) {
   const mapDispatchToProps = dispatch => {
     return {
       getClient: () => dispatch(getClient()),
+      deleteClient: (client) => dispatch(deleteClient(client))
     }
   }
 
@@ -289,4 +289,4 @@ function Customers({ getClient, all_client }) {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Customers)
+export default connect(mapStateToProps, mapDispatchToProps)(Customers);
