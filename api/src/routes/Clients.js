@@ -31,18 +31,19 @@ server.post('/register', (req, res) => {
 	.catch(err => console.log(err))
 })
 
-server.put('/updateClient/:id', (req, res) => {
-	const { name, email, phoneA, phoneB, city, address} = req.body;
+server.put('/update/:id', (req, res) => {
+	const { name, lastname, dni, password, email } = req.body;
+	console.log("este es id", req.params.id)
 	Client.findOne({
-		where: req.params.id
+		where: { id: req.params.id }
 	}).then(cliente => {
+		console.log("este es cliente", cliente)
 		cliente.update({
 			name,
-			email,
-			phoneA,
-			phoneB,
-			city,
-			address
+			lastname,
+			dni,
+			password,
+			email
 		})
 	})
 })

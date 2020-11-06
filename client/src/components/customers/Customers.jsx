@@ -83,7 +83,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient }) {
       dni: document.getElementById('dni').value,
       phone: document.getElementById('phone').value,
       email: document.getElementById('email').value
-        }
+      }
     global.customer = customer
     updateClient(customer)
     setOpen(false)

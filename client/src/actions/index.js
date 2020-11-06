@@ -178,7 +178,7 @@ export function updateTools(date) {
 export function updateClient(client) {
   console.log("El updateClient llega", client)
   return function(dispatch) {
-  return axios.put(`http://localhost:3005/clients/updateClient/${client.id}`, client)
+  return axios.put(`http://localhost:3005/clients/update/${client.id}`, client)
     .then(result => result.data)
     .then(data => {
       dispatch({
