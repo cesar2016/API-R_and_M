@@ -87,7 +87,7 @@ const reducer = (state = initialState, action) => {
         all_client: [...state.all_client, action.payload] //Usar esto para modificar el estado
       };
 
-      case  DELETE_CLIENT: 
+      case DELETE_CLIENT: 
       return {
       ...state,
       users: [...state.users.filter(user => user.id !== action.payload)]

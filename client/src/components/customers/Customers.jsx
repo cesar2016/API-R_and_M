@@ -31,7 +31,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { getClient } from '../../actions/index';
+import { getClient, deleteClient, updateClient, insertClient } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -46,18 +46,11 @@ const useStyles = makeStyles({
   }
 });
 
-// const customers = [
-//   { name:'Carlos',lastname:'Bilardo',dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
-//   { name:'Diego Armando',lastname:'Maradona',dni:'38192012',phone:'02214914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},
-//   { name:'Lionel',lastname:'Messi' ,dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
-//   { name:'Ricardo', lastname:'Fort',dni:'38192012',phone:'02214914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},
-//   { name:'Alejandro',lastname:'Fantino',dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
-//   { name:'Ricardo',lastname:'Darin',dni:'38192012',phone:'0221-4914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},];
-function Customers({ getClient, all_client }) {
+function Customers({ getClient, all_client, deleteClient, updateClient }) {
   const classes = useStyles();
 
   useEffect(() => {
-    getClient()
+    getClient();
     },[])
 
   const [open, setOpen] = React.useState(false);
@@ -79,11 +72,27 @@ function Customers({ getClient, all_client }) {
   };
 
   const handleSubmit = function(e){
-    e.preventDefault();
-    // insertTools(tools);
-    // getAllTools();
-    // onClose(false);
+  e.preventDefault();
+  console.log('El ID De CLIENT', client.id)
+
+  if(client.id){
+    let customer = {
+      id: client.id,
+      name: document.getElementById('name').value,
+      lastname: document.getElementById('lastname').value,
+      dni: document.getElementById('dni').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value
+        }
+    global.customer = customer
+    updateClient(customer)
+    setOpen(false)
+  }else{
+    insertClient(client);
+    setOpen(false)
   }
+  getClient();
+}
 
   const handleChangeClient = function(e) {
     const {id, value } = e.target
@@ -255,7 +264,7 @@ function Customers({ getClient, all_client }) {
              <IconButton aria-label="edit" onClick={() => handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete">
+             <IconButton aria-label="delete" onClick={() => deleteClient(client)}>
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -280,6 +289,8 @@ function Customers({ getClient, all_client }) {
   const mapDispatchToProps = dispatch => {
     return {
       getClient: () => dispatch(getClient()),
+      deleteClient: (client) => dispatch(deleteClient(client)),
+      updateClient: (client) => dispatch(updateClient(client))
     }
   }
 
@@ -289,4 +300,4 @@ function Customers({ getClient, all_client }) {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Customers)
+export default connect(mapStateToProps, mapDispatchToProps)(Customers);
