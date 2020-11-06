@@ -55,10 +55,18 @@ const reducer = (state = initialState, action) => {
         all_tools:  [...state.all_tools, action.payload] //Usar esto para actualizar el estado
       };
 
-      case UPDATE_TOOLS:       
+      case UPDATE_TOOLS:  //Updetear el array        
+      let id = action.payload.id;  
+      for (let i = 0; i < state.all_tools.length; i++) {
+        const item = state.all_tools[i];
+        if(item.id === id){
+          state.all_tools.splice(i, 1, action.payload)
+         // console.log('que tiene esto ',state.all_tools)
+        } 
+      }
       return {
         ...state,
-      all_tools:  [...state.all_tools, action.payload]
+      all_tools:  [...state.all_tools],
       };
 
       case LOGIN:

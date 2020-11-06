@@ -161,7 +161,7 @@ export function insertClient(client) {
   }
 }
 export function updateTools(date) {
-  console.log("El UPDATE_TOOLS llega", date)
+  //console.log("El UPDATE_TOOLS llega", date)
   return function(dispatch) {
   return axios.put(`http://localhost:3005/tools/update/${date.id}`, date)
     .then(result => result.data)
@@ -170,7 +170,7 @@ export function updateTools(date) {
         type: UPDATE_TOOLS,
         payload: data
       })
-      console.log("El UPDATE_TOOLS", data)
+      //console.log("El UPDATE_TOOLS", data)
     })
   }
 }

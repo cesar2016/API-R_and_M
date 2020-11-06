@@ -67,9 +67,6 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
                                            updatedAt:null
                                           });
   const [open, setOpen] = React.useState(false);
-
-  
-console.log('aver si cambea ',all_tools)
  
 
   const handleOpen = (item) => {
@@ -90,12 +87,13 @@ console.log('aver si cambea ',all_tools)
     setOpen(false)
   };
 
+  
+
    
   
   const handleSubmit = function(e){
     e.preventDefault();
-
-    console.log('El ID De TOOLS',tools.id)
+     
      
     if(tools.id){
       let data = {
@@ -105,18 +103,21 @@ console.log('aver si cambea ',all_tools)
         stock: document.getElementById('stock').value,
         categoryId: document.getElementById('categoryId').value       
                 }
-      global.data = data
-      updateTools(data)
-      setOpen(false)
+      global.data = data   
+      
+      console.log('a ver el data ',data)
+      updateTools(data)        
+      getAllCategory();
        
 
     }else{      
-      insertTools(tools);     
-      setOpen(false)
-
+      insertTools(tools); 
+      getAllTools();  
+      
     }
+    handleClose()
      
-    getAllTools();
+    
   }
 
 
@@ -276,8 +277,10 @@ console.log('aver si cambea ',all_tools)
              <TableCell align="center">{row.stock}</TableCell>
              <TableCell align="center">{
               all_categorys.map((cat)=>{
-                  return cat.id === row.categoryId ? cat.name : ''
+                console.log('LA CATTT ', cat.name)
+                  return cat.id === parseInt(row.categoryId) ? cat.name : ''
                })
+              
              }
              </TableCell>
              <TableCell align="center">
