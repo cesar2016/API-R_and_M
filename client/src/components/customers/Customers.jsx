@@ -31,7 +31,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { getClient, deleteClient } from '../../actions/index';
+import { getClient, deleteClient, updateClient } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -53,7 +53,7 @@ const useStyles = makeStyles({
 //   { name:'Ricardo', lastname:'Fort',dni:'38192012',phone:'02214914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},
 //   { name:'Alejandro',lastname:'Fantino',dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
 //   { name:'Ricardo',lastname:'Darin',dni:'38192012',phone:'0221-4914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},];
-function Customers({ getClient, all_client, deleteClient, onClose }) {
+function Customers({ getClient, all_client, deleteClient, onClose, updateClient }) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -82,6 +82,7 @@ function Customers({ getClient, all_client, deleteClient, onClose }) {
     e.preventDefault();
     onClose(false);
     deleteClient(client)
+    updateClient(client)
   }
 
   const handleChangeClient = function(e) {
