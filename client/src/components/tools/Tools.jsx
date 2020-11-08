@@ -144,15 +144,7 @@ console.log('aver si cambea ',all_tools)
 
 
   return (
-    <div>
-    <Toolbar />
-    <h5>Herramientas</h5>
-    <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
-      <Link color="inherit" href="/" >
-        Inicio
-      </Link>
-      <Typography color="textPrimary">Herramientas</Typography>
-    </Breadcrumbs>
+    <div style={{marginTop:'100px'}}>
     <Grid container  direction="row" justify="flex-end" spacing={0}>
       <Grid item xs={5} >
         <Grid container direction="row"  spacing={0}>

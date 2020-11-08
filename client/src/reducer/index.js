@@ -7,10 +7,13 @@ import {
     INSERT_TOOLS,
     GET_ALL_CATEGORY,
     LOGIN,
+    LOGIN_TRUE,
+    LOGIN_COOKIE,
     INSERT_CLIENT,
     UPDATE_TOOLS,
     UPDATE_CLIENT,
-    DELETE_CLIENT
+    DELETE_CLIENT,
+    USER_LOGOUT
     //INSERT_CATEGORY
 } from "../actions/index";
 
@@ -19,7 +22,7 @@ const initialState = {
   all_client: [],
   all_tools: [],
   all_categorys: [],
-  users: []
+  users: true,
 };
 
 
@@ -66,6 +69,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
       };
+      case LOGIN_TRUE:
+        return {
+          ...state,
+          users: true,
+      };
+      
+      case LOGIN_COOKIE:
+        return {
+          ...state,
+          users: action.payload,
+      }
+
+      case USER_LOGOUT:
+        return {
+          ...state,
+          users: true,
+      }
 
       case INSERT_CLIENT:
       return {
