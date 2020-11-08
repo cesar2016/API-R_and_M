@@ -114,7 +114,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient }) {
   };
 
   return (
-    <div style={{marginTop:'100px'}}> 
+    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}>  
     <Grid container>
        <Grid item sm={12} align="right">
         <Button variant="contained" color="primary" className={classes.button} onClick={()=>handleOpen(client)}>

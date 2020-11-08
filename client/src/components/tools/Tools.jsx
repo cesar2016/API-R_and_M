@@ -34,9 +34,8 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Swal from 'sweetalert2';
 
-import { getAllTools, insertTools, getAllCategory, updateTools, deleteTools } from '../../actions/index';
+import { getAllTools, insertTools, getAllCategory, updateTools } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -51,7 +50,7 @@ const useStyles = makeStyles({
   }
 });
 
-function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools, deleteTools }) {
+function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools }) {
   useEffect(() => {
     getAllTools();
     getAllCategory();
@@ -68,6 +67,9 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
                                            updatedAt:null
                                           });
   const [open, setOpen] = React.useState(false);
+
+  
+console.log(tools.categoryId)
  
 
   const handleOpen = (item) => {
@@ -88,39 +90,12 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
     setOpen(false)
   };
 
-   function deleteTool(idTools){
-
-     Swal.fire({
-      title: 'Desea eliminar esta herramienta?',
-      text: "Elija una opcion",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'SI'
-    }).then((result) => {
-      if (result.value) {
-        deleteTools(idTools)
-        getAllTools()                                   
-        Swal.fire({
-            icon: 'success',
-            title: 'Herramienta eliminada con exito',
-            showConfirmButton: false,
-            timer: 2000
-        })
-      }
-    })
-
-   }
-    
-    
-    
-      
    
   
   const handleSubmit = function(e){
     e.preventDefault();
-     
+
+    console.log('El ID De TOOLS',tools.id)
      
     if(tools.id){
       let data = {
@@ -130,21 +105,18 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
         stock: document.getElementById('stock').value,
         categoryId: document.getElementById('categoryId').value       
                 }
-      global.data = data   
-      
-      console.log('a ver el data ',data)
-      updateTools(data)        
-      getAllCategory();
+      global.data = data
+      updateTools(data)
+      setOpen(false)
        
 
     }else{      
-      insertTools(tools); 
-      getAllTools();  
-      
+      insertTools(tools);
+      getAllTools();
+      setOpen(false)
+
     }
-    handleClose()
      
-    
   }
 
 
@@ -172,7 +144,16 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
 
 
   return (
-    <div style={{marginTop:'100px'}}>
+    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}> 
+      
+    <Toolbar />
+    <h5>Herramientas</h5>
+    <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
+      <Link color="inherit" href="/" >
+        Inicio
+      </Link>
+      <Typography color="textPrimary">Herramientas</Typography>
+    </Breadcrumbs>
     <Grid container  direction="row" justify="flex-end" spacing={0}>
       <Grid item xs={5} >
         <Grid container direction="row"  spacing={0}>
@@ -280,14 +261,14 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
        <TableHead>
          <TableRow>
            <TableCell>Descripción</TableCell>
-           <TableCell align="center">Desacripcion</TableCell>
-           <TableCell align="center">Stock</TableCell>
+           <TableCell align="center">Fecha De Modificación</TableCell>
+           <TableCell align="center">Precio</TableCell>
            <TableCell align="center">Categoria</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
        <TableBody>
-         {all_tools.length > 0 ? all_tools.map((row) => (
+         {all_tools ? all_tools.map((row) => (
            <TableRow key={row.name}>
              <TableCell component="th" scope="row">
                {row.name}
@@ -295,17 +276,16 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
              <TableCell align="center">{row.description}</TableCell>
              <TableCell align="center">{row.stock}</TableCell>
              <TableCell align="center">{
-              all_categorys.map((cat)=>{                
-                  return cat.id === parseInt(row.categoryId) ? cat.name : ''
+              all_categorys.map((cat)=>{
+                  return cat.id === row.categoryId ? cat.name : ''
                })
-              
              }
              </TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete" onClick={()=>deleteTool(row.id)} >
+             <IconButton aria-label="delete" >
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -334,8 +314,7 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
       getAllTools: () => dispatch(getAllTools()),
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getAllCategory: () => dispatch(getAllCategory()),
-      updateTools: (tools)=> dispatch(updateTools(tools)),
-      deleteTools: (idTools)=> dispatch(deleteTools(idTools)) 
+      updateTools: (tools)=> dispatch(updateTools(tools)) 
     }
   }
 
