@@ -105,24 +105,16 @@ function Customers({ getClient, all_client, deleteClient, updateClient }) {
   // pagination
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   return (
-    <div>
-    <Toolbar />
-    <h5>Clientes</h5>
-    <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
-      <Link color="inherit" href="/" >
-        Inicio
-      </Link>
-      <Typography color="textPrimary">Clientes</Typography>
-    </Breadcrumbs>
+    <div style={{marginTop:'100px'}}> 
     <Grid container>
        <Grid item sm={12} align="right">
         <Button variant="contained" color="primary" className={classes.button} onClick={()=>handleOpen(client)}>

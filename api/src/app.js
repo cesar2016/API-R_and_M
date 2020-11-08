@@ -3,14 +3,35 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const ind = require('./routes/index.js');
-const LocalStrategy = require('passport-local').Strategy
 const session = require('express-session')
 const passport = require('passport');
-const cors = require('cors');
+const Strategy = require('passport-local').Strategy;
+
 
 const { Client, Tools, User, Category } = require('./db.js');
 
 const db = require('./db.js');
+
+passport.use(new Strategy(
+  function(username, password, done, info) {
+    db.User.findOne({ where: {username}})
+      .then(user => {
+        if (!user) {
+          console.log("NO ENCUENTRA EL USUARIO")
+          return done(null, false);
+        }
+        if (user.password !== password) {
+          console.log("NO PASA LA CONTRASEÑA")
+          return done(null, false);
+        }
+        console.log("ENCUENTRA EL USUARIO", user.dataValues)
+        return done(null, user.dataValues);
+      })
+      .catch(err => {
+        return done(err);
+      })
+  }));
+
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -25,32 +46,6 @@ passport.deserializeUser(function(id, done) {
       return done(err);
     })
 });
- 
-passport.use(new LocalStrategy({
-  usernameField: 'username',
-  passwordField: 'password'
-},
-  async function(username, password, done) {
-    // console.log("ESTE es username", username)
-    // console.log("ESTE es password", password)
-    try {
-      const user = await User.findOne({where: { username: username }})
-      // console.log("USERNAMEE", user)
-      if (!user) {
-        return done(null, false, { message: 'Usuario incorrecto.' });
-      }
-      if (user.password !== password) {
-        console.log('bad pass')
-        return done(null, false, { message: 'Contraseña incorrecta.' });
-      }
-      return done(null, user);
-      
-    } catch (error) {
-      return done(error);
-    }
-  }
-));
-
 
 const server = express();
 
@@ -75,19 +70,8 @@ server.use((req, res, next) => {
   next();
 });
 
-
-
-server.use(express.static('public'));
-server.use(cookieParser());
-// server.use(bodyParser());
-server.use(session({ secret: 'keyboard cat' }));
 server.use(passport.initialize());
 server.use(passport.session());
-server.use(cors({
-  exposedHeaders: ['Content-Length', 'A-BCD', 'Z-XYZ'],
-  credentials: true,
-}));
-
 
 server.use((req, res, next) => {
   console.log("Session! ", req.session);
@@ -95,32 +79,31 @@ server.use((req, res, next) => {
   next();
 });
 
-
 server.use('/', ind)
 
+
 server.post("/login", (req, res, next) => {
-  passport.authenticate("local",
-  (err, user, info) => {
+  passport.authenticate("local", (err, user, info) => {
     if (err) { return next(err); }
     if (!user) {
-      return res.send(info);
+      return res.send(user);
     }
     req.logIn(user, (err) => {
       if (err) {
         return next(err);
       }
-      // console.log('Entro aca')
-      return res.send({id:user.id, username:user.username})
+      return res.send(user)
     });
   })(req, res, next);
 })
+
 
 function isAuthenticated(req, res, next) {
     if(req.isAuthenticated()){
       next();
     }
     else{
-      res.send(false);
+      res.send("0");
     }
   };
 
@@ -132,11 +115,8 @@ server.get("/login",
 
 server.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("/")
+  res.send("Usuario Desconectado")
 });
-
-
-
 
 
 //-------------------------------------------------------------------------------------------

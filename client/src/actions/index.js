@@ -9,6 +9,9 @@ export const GET_TOOL = "GET_TOOL";
 export const GET_ALL_TOOLS = "GET_ALL_TOOLS";
 export const INSERT_CATEGORY = "INSERT_CATEGORY";
 export const LOGIN = "LOGIN";
+export const LOGIN_TRUE = "LOGIN_TRUE";
+export const LOGIN_COOKIE = "LOGIN_COOKIE";
+export const USER_LOGOUT = "USER_LOGOUT";
 export const INSERT_TOOLS = "INSERT_TOOLS";
 export const GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
 export const INSERT_CLIENT = "INSERT_CLIENT";
@@ -34,7 +37,7 @@ export const TOOLS_DELETE = "TOOLS_DELETE"
 
 export function cargardb () {
   return function(dispatch) {
-    return axios.post(`http://localhost:3005/registerhd`)
+    return axios.post(`http://localhost:3005/registerhd`, { withCredentials: true })
       .then(result => result.data)
       .then(data => {
         dispatch({
@@ -48,7 +51,7 @@ export function cargardb () {
 
 export function getClient() {
   return function(dispatch) {
-    return axios.get(`http://localhost:3005/clients`)
+    return axios.get(`http://localhost:3005/clients`, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -62,7 +65,7 @@ export function getClient() {
 
 export function getAllTools() {
   return function(dispatch) {
-    return axios.get(`http://localhost:3005/tools`)
+    return axios.get(`http://localhost:3005/tools`, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -76,7 +79,7 @@ export function getAllTools() {
 
 export function getAllCategory() {
   return function(dispatch) {
-    return axios.get(`http://localhost:3005/category`)
+    return axios.get(`http://localhost:3005/category`, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -90,7 +93,7 @@ export function getAllCategory() {
 
 export function getTool() {
   return function(dispatch) {
-    return axios.get(`http://localhost:3005/tools/:id`)
+    return axios.get(`http://localhost:3005/tools/:id`, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -105,7 +108,7 @@ export function getTool() {
 export function insertCategory(category) {
   console.log('EL insert llega ', category)
   return function(dispatch) {
-    return axios.post(`http://localhost:3005/tools/insertCategory`,category)
+    return axios.post(`http://localhost:3005/tools/insertCategory`,category, { withCredentials: true })
       .then(result => result.data)
       .then(data => {
         dispatch({
@@ -120,22 +123,53 @@ export function insertCategory(category) {
 export function login(login) {
   console.log("Los datos del login", login)
   return function(dispatch) {
-    return axios.post(`http://localhost:3005/login`, login)
+    return axios.post(`http://localhost:3005/login`, login, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
         type: LOGIN,
         payload: data
       })
-      console.log("Login devuelve", data)
+      //console.log("Login devuelve", data)
     })
   }
+}
+
+
+export function logintrue() {
+  return function(dispatch) {
+      dispatch({
+        type: LOGIN_TRUE,
+      })
+  }
+}
+
+
+export function loginUserCookie(){
+  return function(dispatch){
+    return axios.get("http://localhost:3005/login", { withCredentials: true })
+    .then(result => result.data)
+    .then(data => {
+      dispatch({
+        type: LOGIN_COOKIE,
+        payload: data
+      })
+    })
+  }
+}
+
+export function userLogout () {
+  axios.get('http://localhost:3005/logout', { withCredentials: true })
+  return {
+    type: USER_LOGOUT
+  }
+
 }
 
 export function insertTools(tools) {
   console.log('EL insertTOOLS llega', tools)
   return function(dispatch) {
-  return axios.post(`http://localhost:3005/tools/insertTools`, tools)
+  return axios.post(`http://localhost:3005/tools/insertTools`, tools, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -150,7 +184,7 @@ export function insertTools(tools) {
 export function insertClient(client) {
   console.log("El insertClient llega", client)
   return function(dispatch) {
-  return axios.post(`http://localhost:3005/clients/register`, client)
+  return axios.post(`http://localhost:3005/clients/register`, client, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -164,7 +198,7 @@ export function insertClient(client) {
 export function updateTools(date) {
   //console.log("El UPDATE_TOOLS llega", date)
   return function(dispatch) {
-  return axios.put(`http://localhost:3005/tools/update/${date.id}`, date)
+  return axios.put(`http://localhost:3005/tools/update/${date.id}`, date, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -179,7 +213,7 @@ export function updateTools(date) {
 export function updateClient(client) {
   console.log("El updateClient llega", client)
   return function(dispatch) {
-  return axios.put(`http://localhost:3005/clients/update/${client.id}`, client)
+  return axios.post(`http://localhost:3005/clients/updateClient/${client.id}`, client, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -194,7 +228,7 @@ export function updateClient(client) {
 export function deleteClient(client) {
   console.log("El deleteClient llega", client)
   return function(dispatch) {
-  return axios.delete(`http://localhost:3005/clients/delete/${client.id}`, client)
+  return axios.post(`http://localhost:3005/clients/delete/${client.id}`, client, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
