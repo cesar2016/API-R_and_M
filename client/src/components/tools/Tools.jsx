@@ -34,8 +34,9 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Swal from 'sweetalert2';
 
-import { getAllTools, insertTools, getAllCategory, updateTools } from '../../actions/index';
+import { getAllTools, insertTools, getAllCategory, updateTools, deleteTools } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -50,7 +51,7 @@ const useStyles = makeStyles({
   }
 });
 
-function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools }) {
+function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools, deleteTools }) {
   useEffect(() => {
     getAllTools();
     getAllCategory();
@@ -87,8 +88,34 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
     setOpen(false)
   };
 
-  
+   function deleteTool(idTools){
 
+     Swal.fire({
+      title: 'Desea eliminar esta herramienta?',
+      text: "Elija una opcion",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'SI'
+    }).then((result) => {
+      if (result.value) {
+        deleteTools(idTools)
+        getAllTools()                                   
+        Swal.fire({
+            icon: 'success',
+            title: 'Herramienta eliminada con exito',
+            showConfirmButton: false,
+            timer: 2000
+        })
+      }
+    })
+
+   }
+    
+    
+    
+      
    
   
   const handleSubmit = function(e){
@@ -276,8 +303,7 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
              <TableCell align="center">{row.description}</TableCell>
              <TableCell align="center">{row.stock}</TableCell>
              <TableCell align="center">{
-              all_categorys.map((cat)=>{
-                console.log('LA CATTT ', cat.name)
+              all_categorys.map((cat)=>{                
                   return cat.id === parseInt(row.categoryId) ? cat.name : ''
                })
               
@@ -287,7 +313,7 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete" >
+             <IconButton aria-label="delete" onClick={()=>deleteTool(row.id)} >
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -316,7 +342,8 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
       getAllTools: () => dispatch(getAllTools()),
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getAllCategory: () => dispatch(getAllCategory()),
-      updateTools: (tools)=> dispatch(updateTools(tools)) 
+      updateTools: (tools)=> dispatch(updateTools(tools)),
+      deleteTools: (idTools)=> dispatch(deleteTools(idTools)) 
     }
   }
 

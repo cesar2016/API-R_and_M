@@ -13,8 +13,9 @@ export const INSERT_TOOLS = "INSERT_TOOLS";
 export const GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
 export const INSERT_CLIENT = "INSERT_CLIENT";
 export const UPDATE_TOOLS = "UPDATE_TOOLS";
-export const UPDATE_CLIENT = "UPDATE_CLIENT"
-export const DELETE_CLIENT = "DELETE_CLIENT"
+export const UPDATE_CLIENT = "UPDATE_CLIENT";
+export const DELETE_CLIENT = "DELETE_CLIENT";
+export const TOOLS_DELETE = "TOOLS_DELETE"
 
 
 // export function infoMovie (apiKey, ciudad ) {
@@ -68,7 +69,7 @@ export function getAllTools() {
         type: "GET_ALL_TOOLS",
         payload: data
       })
-      console.log("Todas las tools", data)
+     // console.log("Todas las tools", data)
     })
   }
 }
@@ -82,7 +83,7 @@ export function getAllCategory() {
         type: "GET_ALL_CATEGORY",
         payload: data
       })
-      console.log("Todas las CATEGORY", data)
+      //console.log("Todas las CATEGORY", data)
     })
   }
 }
@@ -203,4 +204,19 @@ export function deleteClient(client) {
       console.log("El deleteClient devuelve", data)
     })
   }
+}
+
+export function deleteTools(id) {
+  console.log("el id en actions ", id)
+  return function (dispatch) {
+    return axios
+      .delete(`http://localhost:3005/tools/delete/${id}`)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: TOOLS_DELETE,
+          payload: data,
+        });
+      });
+  };
 }

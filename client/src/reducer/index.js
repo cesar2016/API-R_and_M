@@ -10,7 +10,8 @@ import {
     INSERT_CLIENT,
     UPDATE_TOOLS,
     UPDATE_CLIENT,
-    DELETE_CLIENT
+    DELETE_CLIENT,
+    TOOLS_DELETE
     //INSERT_CATEGORY
 } from "../actions/index";
 
@@ -91,6 +92,11 @@ const reducer = (state = initialState, action) => {
       return {
       ...state,
       users: [...state.users.filter(user => user.id !== action.payload)]
+      }
+      case TOOLS_DELETE: 
+      return {
+      ...state,
+      all_tools: [...state.all_tools]
       }
 
     default:
