@@ -81,7 +81,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
 
     <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}> 
     <Toolbar />
-    <h5>ALQUILAR</h5>
+    <h5>Alquilar</h5>
     <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
       <Link color="inherit" href="/" >
         Inicio
