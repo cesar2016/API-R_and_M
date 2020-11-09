@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { connect } from "react-redux";
-import { getClient, insertClient } from "../../actions/index";
+import { getClient, insertClient, updateClient } from "../../actions/index";
 
 const useStyles = makeStyles({
   button:{
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   paper: { minWidth: "500px" },
 });
 
-const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertClient }) => {
+const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertClient, updateClient }) => {
   const classes = useStyles();
   // const defaultCustomer = {name:'',dni:'',phone:'',email:'',adress:''};
 
@@ -42,6 +42,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
     e.preventDefault();
     insertClient(inputClient);
     getClient();
+    updateClient(all_client)
   }
 
   const handleOpen = () => {
@@ -161,7 +162,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => updateClient(all_client)} color="primary">
             Agregar
           </Button>
         </DialogActions>
