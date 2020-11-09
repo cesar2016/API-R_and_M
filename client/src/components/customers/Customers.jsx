@@ -73,7 +73,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient }) {
 
   const handleSubmit = function(e){
   e.preventDefault();
-  console.log('El ID De CLIENT', client.id)
+  // console.log('El ID De CLIENT', client.id)
 
   if(client.id){
     let customer = {
@@ -252,7 +252,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient }) {
        <TableBody>
        {all_client ? all_client.map((row) => (
            <TableRow key={row.name}>
-             {console.log("esto es row", row)}
+             {/* {console.log("esto es row", row)} */}
              <TableCell component="th" scope="row">
                {row.name} {row.lastname}
              </TableCell>

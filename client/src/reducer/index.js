@@ -81,16 +81,24 @@ const reducer = (state = initialState, action) => {
         all_client: [...state.all_client, action.payload] //Usar esto para actualizar el estado
       };
 
-      case UPDATE_CLIENT:
+      case UPDATE_CLIENT:  //Updetear el array
+      let clientId = action.payload.id;  
+      for (let i = 0; i < state.all_client.length; i++) {
+        const customer = state.all_client[i];
+        if(customer.id === clientId){
+          state.all_client.splice(i, 1, action.payload)
+         console.log('que tiene esto ',state.all_client)
+        }
+      }
       return {
-        ...state, 
-        all_client: [...state.all_client, action.payload] //Usar esto para modificar el estado
+        ...state,
+      all_client: [...state.all_client],
       };
 
       case DELETE_CLIENT: 
       return {
       ...state,
-      users: [...state.users.filter(user => user.id !== action.payload)]
+      all_client: [...state.all_client.filter(client => client.id !== action.payload)]
       }
 
     default:

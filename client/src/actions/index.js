@@ -176,7 +176,7 @@ export function updateTools(date) {
 }
 
 export function updateClient(client) {
-  console.log("El updateClient llega", client)
+  // console.log("El updateClient llega", client)
   return function(dispatch) {
   return axios.put(`http://localhost:3005/clients/update/${client.id}`, client)
     .then(result => result.data)
@@ -191,9 +191,9 @@ export function updateClient(client) {
 }
 
 export function deleteClient(client) {
-  console.log("El deleteClient llega", client)
+  console.log("El deleteClient llega")
   return function(dispatch) {
-  return axios.delete(`http://localhost:3005/clients/delete/${client.id}`, client)
+  return axios.delete(`http://localhost:3005/clients/delete/${client.id}`)
     .then(result => result.data)
     .then(data => {
       dispatch({
