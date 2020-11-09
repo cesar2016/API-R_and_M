@@ -106,7 +106,7 @@ console.log(tools.categoryId)
         categoryId: document.getElementById('categoryId').value       
                 }
       global.data = data
-      updateTools(data)
+      updateTools(data)       
       setOpen(false)
        
 
@@ -116,6 +116,7 @@ console.log(tools.categoryId)
       setOpen(false)
 
     }
+     
      
   }
 
@@ -260,10 +261,11 @@ console.log(tools.categoryId)
      <Table className={classes.table} aria-label="simple table">
        <TableHead>
          <TableRow>
-           <TableCell>Descripción</TableCell>
-           <TableCell align="center">Fecha De Modificación</TableCell>
-           <TableCell align="center">Precio</TableCell>
+           <TableCell>Nombre</TableCell>
+           <TableCell align="center">Descripcion</TableCell>
+           <TableCell align="center">Stock</TableCell>
            <TableCell align="center">Categoria</TableCell>
+           <TableCell align="center">Estado</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
@@ -277,10 +279,11 @@ console.log(tools.categoryId)
              <TableCell align="center">{row.stock}</TableCell>
              <TableCell align="center">{
               all_categorys.map((cat)=>{
-                  return cat.id === row.categoryId ? cat.name : ''
+                  return cat.id === parseFloat(row.categoryId) ? cat.name : ''
                })
              }
              </TableCell>
+             <TableCell align="center">Estado de la Herram</TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />
