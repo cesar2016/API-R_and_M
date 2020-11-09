@@ -67,6 +67,9 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
                                            updatedAt:null
                                           });
   const [open, setOpen] = React.useState(false);
+
+  
+console.log(tools.categoryId)
  
 
   const handleOpen = (item) => {
@@ -87,13 +90,12 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
     setOpen(false)
   };
 
-  
-
    
   
   const handleSubmit = function(e){
     e.preventDefault();
-     
+
+    console.log('El ID De TOOLS',tools.id)
      
     if(tools.id){
       let data = {
@@ -103,21 +105,19 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
         stock: document.getElementById('stock').value,
         categoryId: document.getElementById('categoryId').value       
                 }
-      global.data = data   
-      
-      console.log('a ver el data ',data)
-      updateTools(data)        
-      getAllCategory();
+      global.data = data
+      updateTools(data)       
+      setOpen(false)
        
 
     }else{      
-      insertTools(tools); 
-      getAllTools();  
-      
+      insertTools(tools);
+      getAllTools();
+      setOpen(false)
+
     }
-    handleClose()
      
-    
+     
   }
 
 
@@ -145,7 +145,8 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
 
 
   return (
-    <div>
+    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}> 
+      
     <Toolbar />
     <h5>Herramientas</h5>
     <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
@@ -260,15 +261,16 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
      <Table className={classes.table} aria-label="simple table">
        <TableHead>
          <TableRow>
-           <TableCell>Descripción</TableCell>
-           <TableCell align="center">Desacripcion</TableCell>
+           <TableCell>Nombre</TableCell>
+           <TableCell align="center">Descripcion</TableCell>
            <TableCell align="center">Stock</TableCell>
            <TableCell align="center">Categoria</TableCell>
+           <TableCell align="center">Estado</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
        <TableBody>
-         {all_tools.length > 0 ? all_tools.map((row) => (
+         {all_tools ? all_tools.map((row) => (
            <TableRow key={row.name}>
              <TableCell component="th" scope="row">
                {row.name}
@@ -277,12 +279,11 @@ function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTo
              <TableCell align="center">{row.stock}</TableCell>
              <TableCell align="center">{
               all_categorys.map((cat)=>{
-                console.log('LA CATTT ', cat.name)
-                  return cat.id === parseInt(row.categoryId) ? cat.name : ''
+                  return cat.id === parseFloat(row.categoryId) ? cat.name : ''
                })
-              
              }
              </TableCell>
+             <TableCell align="center">Estado de la Herram</TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,6 +20,12 @@ import BuildIcon from '@material-ui/icons/Build';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import Avatar from '@material-ui/core/Avatar';
+import { loginUserCookie } from '../../actions/index';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+import Swal from 'sweetalert2';
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -34,10 +40,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListItemLink(props: ListItemProps<'a', { button?: true }>) {
+function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
-export default function Header() {
+
+
+function Header({loginUserCookie,users }) {
+  const history = useHistory();
+
+  useEffect(() => {
+    loginUserCookie()
+  },[])
+  
+  if(users == 0){
+    Swal.fire({
+      icon: 'error',
+      title: 'Error! Debes iniciar sesion para acceder!',
+      showConfirmButton: true,
+    });
+    history.push('/')
+  }
+
+
+  
   const classes = useStyles();
   // menu user login
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -60,34 +85,33 @@ export default function Header() {
   };
 
 
-
-
   const list = () => (
     <div
       className={classes.list}
       role="presentation"
     >
-           <List>
-             <ListItemLink href="/">
-               <ListItemIcon className={classes.topografy} ><HomeIcon/></ListItemIcon>
-               <ListItemText primary='Inicio' />
-             </ListItemLink>
-           </List>
-           <Divider/>
-           <List>
-             <ListItemLink href="/customers">
-               <ListItemIcon><PeopleIcon/></ListItemIcon>
-               <ListItemText primary='Clientes' />
-             </ListItemLink>
-           </List>
-           <List>
-             <ListItemLink href="/tools">
-               <ListItemIcon><BuildIcon/></ListItemIcon>
-               <ListItemText primary='Herramientas' />
-             </ListItemLink>
-           </List>
-     </div>
+          <List>
+            <ListItemLink href="/home">
+              <ListItemIcon className={classes.topografy} ><HomeIcon/></ListItemIcon>
+              <ListItemText primary='Inicio' />
+            </ListItemLink>
+          </List>
+          <Divider/>
+          <List>
+            <ListItemLink href="/home/customers">
+              <ListItemIcon><PeopleIcon/></ListItemIcon>
+              <ListItemText primary='Clientes' />
+            </ListItemLink>
+          </List>
+          <List>
+            <ListItemLink href="/home/tools">
+              <ListItemIcon><BuildIcon/></ListItemIcon>
+              <ListItemText primary='Herramientas' />
+            </ListItemLink>
+          </List>
+    </div>
 )
+
   return (
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -96,53 +120,65 @@ export default function Header() {
           <Grid item xs={2} >
           <Hidden mdUp>
             <IconButton
-             display={{ xs: 'block', md: 'none', lg: 'none' }}
-             color="inherit"
-             aria-label="open drawer"
-             onClick={handleMenuSidebar}
-             edge="start"
-             >
-               <MenuIcon display={{ xs: 'block', md: 'none', lg: 'none' }} />
-             </IconButton>
-             
+              display={{ xs: 'block', md: 'none', lg: 'none' }}
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleMenuSidebar}
+              edge="start"
+              >
+                <MenuIcon display={{ xs: 'block', md: 'none', lg: 'none' }} />
+              </IconButton>
+              
           </Hidden>
           </Grid>
-           <Grid item xs={8}>
-           <IconButton
-               edge="end"
-               aria-label="account of current user"
-               //aria-controls={menuId}
-               aria-haspopup="true"
-               //onClick={handleProfileMenuOpen}
-               color="inherit"
-             > 
+            <Grid item xs={8}>
+            <IconButton
+                edge="end"
+                aria-label="account of current user"
+                //aria-controls={menuId}
+                aria-haspopup="true"
+                //onClick={handleProfileMenuOpen}
+                color="inherit"
+              > 
               <Avatar alt="Remy Sharp" src="https://i.postimg.cc/q7NTv10G/jdf.jpg" className={classes.large} />
-             </IconButton>              
-           </Grid>
-           <Grid item align="right" xs={2}>
-           <div>
-             
-             <IconButton
-               edge="end"
-               aria-label="account of current user"
-               //aria-controls={menuId}
-               aria-haspopup="true"
-               //onClick={handleProfileMenuOpen}
-               color="inherit"
-             >                     
-               <Avatar className={classes.large} alt="Cindy Baker" src="https://cdn.iconscout.com/icon/free/png-512/laptop-user-1-1179329.png" /> 
-               &nbsp; <small style={{"color": "#000", "fontSize": "13px"}}>Welcome! <br/> 
-               <b>ADMIN</b>
-               </small>      
-             </IconButton>   
-             
-                    
+              </IconButton>              
+            </Grid>
+            <Grid item align="right" xs={2}>
+            <div>
               
-           </div>
-           
-           </Grid>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              //aria-controls={menuId}
+              aria-haspopup="true"
+              //onClick={handleProfileMenuOpen}
+              color="inherit"
+            >                     
+              <Avatar className={classes.large} alt="Cindy Baker" src="https://cdn.iconscout.com/icon/free/png-512/laptop-user-1-1179329.png" /> 
+              &nbsp; <small style={{"color": "#000", "fontSize": "13px"}}>Welcome! <br/> 
+              <b>ADMIN</b>
+              </small>      
+            </IconButton>   
+        
+              
+          </div>
+          
+          </Grid>
         </Grid>
         </Toolbar>
       </AppBar>
     );
+}
+  const mapDispatchToProps = dispatch => {
+    return {
+      loginUserCookie: () => dispatch(loginUserCookie())
+    }
   }
+  
+  const mapStateToProps = state => {
+    return {
+      users: state.users
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,9 +12,15 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
-import { login } from '../../actions/index';
+import Swal from 'sweetalert2';
+import { login, logintrue, loginUserCookie, cargardb } from '../../actions/index';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ListItem from '@material-ui/core/ListItem';
+import Home from '../home/Home';
+import { UIRouter, UIView, pushStateLocationPlugin} from '@uirouter/react';
+
+
 
 function Copyright() {
   return (
@@ -60,10 +66,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignInSide({ login }) {
+function SignInSide({ login, date_user,logintrue, loginUserCookie,cargardb }) {
   const classes = useStyles();
-
+  const history = useHistory();
   const [ userLog, setUserLog ] = useState({ username: "", password: "" })
+
+  useEffect(() => {
+    loginUserCookie()
+  }, [])
+
+  if(typeof date_user == "object"){
+    history.push('/home')
+  }
 
   const handleChange = function(e) {
     setUserLog({
@@ -74,8 +88,41 @@ function SignInSide({ login }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    login(userLog)
+    login(userLog);
   }
+
+  const loadDB = function(){
+    cargardb()
+  }
+
+  if ( date_user === false) {
+    Swal.fire({
+            icon: 'error',
+            title: 'Oops... user or password invalid!',
+            showConfirmButton: false,
+            timer: 1500
+          });
+    logintrue()
+  }
+  function handleClick(event) {
+    event.preventDefault();
+  }
+
+  function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+  }
+
+  if(typeof date_user === "object"){
+    Swal.fire({
+      icon: 'success',
+      title: 'Bienvenid@!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+    history.push('/home')
+  }
+
+
 
   return (
 
@@ -117,22 +164,26 @@ function SignInSide({ login }) {
               control={<Checkbox value="remember" color="primary" />}
               label="Recordame"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              INICIAR SESION
-            </Button>
+            
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                INICIAR SESION
+              </Button>
+          
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Olvidaste tu clave?
                 </Link>
               </Grid>
-               
+              
+              <button onClick={loadDB}><small>cargadb</small></button>
+
             </Grid>
             <Box mt={5}>
               <Copyright />
@@ -146,7 +197,10 @@ function SignInSide({ login }) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (userLog) => dispatch(login(userLog))
+    login: (userLog) => dispatch(login(userLog)),
+    logintrue: () => dispatch(logintrue()),
+    loginUserCookie: () => dispatch(loginUserCookie()),
+    cargardb: () => dispatch(cargardb())
   }
 }
 

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
 }));
-function ListItemLink(props: ListItemProps<'a', { button?: true }>) {
+function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 function ClippedDrawer({cargardb}) {
@@ -51,20 +51,20 @@ function ClippedDrawer({cargardb}) {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            <ListItemLink href="/">
+            <ListItemLink href="/home">
               <ListItemIcon className={classes.topografy} ><HomeIcon/></ListItemIcon>
               <ListItemText primary='Inicio' />
             </ListItemLink>
           </List>
           <Divider/>
           <List>
-            <ListItemLink href="/customers">
+            <ListItemLink href="/home/customers">
               <ListItemIcon><PeopleIcon/></ListItemIcon>
               <ListItemText primary='Clientes' />
             </ListItemLink>
           </List>
           <List>
-            <ListItemLink href="/tools">
+            <ListItemLink href="/home/tools">
               <ListItemIcon><BuildIcon/></ListItemIcon>
               <ListItemText primary='Herramientas' />
             </ListItemLink>

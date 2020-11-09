@@ -53,20 +53,15 @@ server.put('/update/:id', (req, res, next) => {
     })
 });
 
-// server.delete('/delete/:id', (req, res, next) => {
-//     const id = req.params.id;
-//     tools.destroy({ where: { id: id } })
-//       .then((num) => {
-//         if (num > 0) {
-//           return res.send({ message: `Se elimino la herramienta Nº: ${id}` })
-//         }
-//         return res.send({
-//           message: `No se pudo eliminar la herramienta Nº : ${id}`,
-//         })
-//       })
-//       .catch((error) => next(error));
-//   })
-  
+server.delete("/delete/:id", (req, res) => {
+	const { id } = req.params;
+	Tools.destroy({ where: { id } })
+		.then(result => {
+            //res.send(result)
+			res.sendStatus(200);
+		})
+		.catch(() => res.status(404))
+});
 
 //**************************************
 //|                CATEGORIES          |

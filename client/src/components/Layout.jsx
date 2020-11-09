@@ -29,9 +29,9 @@ export default function ClippedDrawer() {
         </Hidden>
         <Container>
         <main className={classes.content}>
-         <UIView />
-         </main>
-         </Container>
+        <UIView />
+        </main>
+        </Container>
     </div>
 
 
