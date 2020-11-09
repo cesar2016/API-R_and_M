@@ -31,6 +31,13 @@ server.post('/register', (req, res) => {
 	.catch(err => console.log(err))
 })
 
+// server.post('/insertClients', (req, res, next) => {
+// 	Client.create(req.body)
+// 	.then(date => {
+// 	  res.send(date)
+//   })
+// })
+
 server.put('/update/:id', (req, res) => {
 	const { name, lastname, dni, password, email } = req.body;
 	console.log("este es id", req.params.id)
