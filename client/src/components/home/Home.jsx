@@ -27,25 +27,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import { getAllTools, insertTools, getClient, updateTools } from '../../actions/index';
 import { connect } from 'react-redux';
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
+ 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,17 +56,23 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
     getClient();
     },[])
   const classes = useStyles();
-  const [values, setValues] = React.useState({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
-    showPassword: false,
+  const [input, setInput] = React.useState({
+    client: '',
+    herramienta: '',
+    fdesde: '',
+    fhasta: '',
+    precio: '',
+    nota: '',
   });
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+  const handleChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
   };
+
+  console.log('los inputs ',input)
  
  
   return (
@@ -103,16 +91,17 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
     <div className={classes.root}>
        
       <TextField
-          id="outlined-select-currency"
+          id="client"
+          name="client"
           select
-          label="Nombre Cliente"
-          //value={currency}
+          label="Nombre Cliente"  
+          required         
           onChange={handleChange}
           helperText="Selecciones un cliente"
           variant="outlined"
         >
           {all_client ? all_client.map((option) => (
-            <MenuItem key={option.id} value={option.name}>
+            <MenuItem value={option.id}>
               {option.name +' '+option.lastname}
             </MenuItem>
           )): 'No hay clientes cargados'}
@@ -120,16 +109,17 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
          
          
         <TextField
-          id="outlined-select-currency"
+          id="herramienta"
+          name="herramienta"
+          required
           select
-          label="Herramienta"
-          //value={currency}
+          label="Herramienta"           
           onChange={handleChange}
           helperText="Seleccione una herramienta"
           variant="outlined"
         >
           {all_tools ? all_tools.map((option) => (
-            <MenuItem key={option.id} value={option.name}>
+            <MenuItem value={option.id}>
               {option.name}
             </MenuItem>
           )): 'Aun no hay herramintas cargadas'}
@@ -140,8 +130,12 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
     <div className={classes.root}>
     
       <TextField
+          onChange={handleChange}
           label="Fecha desde *"
-          id="outlined-start-adornment"
+          id="fdesde"
+          name="fdesde"
+          required
+          type="date"
           className={clsx(classes.margin, classes.textField)}
           InputProps={{
             startAdornment: <InputAdornment position="start"></InputAdornment>,
@@ -149,8 +143,12 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
           variant="outlined"
         />
       <TextField
+          onChange={handleChange}
           label="Fecha hasta *"
-          id="outlined-start-adornment"
+          type="date"
+          id="fhasta"
+          name="fhasta"
+          required
           className={clsx(classes.margin, classes.textField)}
           InputProps={{
             startAdornment: <InputAdornment position="start"></InputAdornment>,
@@ -158,8 +156,11 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
           variant="outlined"
         />
       <TextField
-          label="Precio *"
-          id="outlined-start-adornment"
+          onChange={handleChange}
+          label="Precio $ *"
+          id="precio"
+          name="precio"
+          required
           className={clsx(classes.margin, classes.textField)}
           InputProps={{
             startAdornment: <InputAdornment position="start"></InputAdornment>,
@@ -169,9 +170,11 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
       <FormControl fullWidth className={classes.margin} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-amount">Anotar</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-amount"
-            value={values.amount}
-            onChange={handleChange('amount')}
+            id="nota"
+            name="nota"
+            required
+            onChange={handleChange}
+           //onChange={handleChange('amount')}
             startAdornment={<InputAdornment position="start">Comentario</InputAdornment>}
             labelWidth={60}
           />
