@@ -246,8 +246,8 @@ export function deleteTools(id) {
   return function (dispatch) {
     return axios
       .delete(`http://localhost:3005/tools/delete/${id}`, { withCredentials: true })
-      .then((res) => res.data)
-      .then((data) => {
+      .then(res => res.data)
+      .then(data => {
         dispatch({
           type: TOOLS_DELETE,
           payload: data,
@@ -257,7 +257,7 @@ export function deleteTools(id) {
 }
 
 export function order(order) {
-  console.log("el id en actions ", order)
+  console.log("Order tiene ", order)
   return function (dispatch) {
     return axios.post(`http://localhost:3005/orders`, order, { withCredentials: true })
       .then(res => res.data)
