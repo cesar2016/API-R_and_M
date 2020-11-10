@@ -98,7 +98,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
     insertClient(client);
     handleClose()
   }
-  getClient();
+ 
 }
 
   const handleChangeClient = function(e) {
@@ -121,11 +121,11 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
     setPage(0);
   };
 
-  function clientDelete(id){  
+  function clientDelete(id, name, lastname){  
     global.idClient = id     
     Swal.fire({
      title: 'ATENCION!',
-     text: "Vas a eliminar un cliente ...",
+     text: "Vas a eliminar a: " + name +" "+lastname ,
      icon: 'warning',
      showCancelButton: true,
      confirmButtonColor: '#3085d6',
@@ -338,7 +338,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
              <IconButton aria-label="edit" onClick={() => handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete" onClick={()=>clientDelete(row.id)}>
+             <IconButton aria-label="delete" onClick={()=>clientDelete(row.id, row.name, row.lastname)}>
                <DeleteIcon />
              </IconButton>
              </TableCell>

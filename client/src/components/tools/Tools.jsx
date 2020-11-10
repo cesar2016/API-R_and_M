@@ -108,13 +108,14 @@ console.log(tools.categoryId)
                 }
       global.data = data
       updateTools(data)       
-      setOpen(false)
+      handleClose()
        
 
     }else{      
       insertTools(tools);
       getAllTools();
-      setOpen(false)
+      getAllTools();       
+      handleClose()
 
     }
      
@@ -132,11 +133,11 @@ console.log(tools.categoryId)
   }
 
   
- function toolDelete(id){  
+ function toolDelete(id, name){  
    global.idTools = id
    Swal.fire({
     title: 'ATENCION!',
-    text: "Vas a eliminar una herramienta ...",
+    text: "Vas a eliminar la herramient:  "+ name,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -145,6 +146,7 @@ console.log(tools.categoryId)
   }).then((result) => {
     if (result.isConfirmed) {
       deleteTools(id)
+      getAllTools();
       getAllTools();
       Swal.fire(
         'Eliminada!',
@@ -305,12 +307,14 @@ console.log(tools.categoryId)
                })
              }
              </TableCell>
-             <TableCell align="center">Estado de la Herram</TableCell>
+             <TableCell align="center">
+               Estado de la Herram
+             </TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete" onClick={()=>toolDelete(row.id)} >
+             <IconButton aria-label="delete" onClick={()=>toolDelete(row.id, row.name)} >
                <DeleteIcon />
              </IconButton>
              </TableCell>

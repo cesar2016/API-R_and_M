@@ -120,7 +120,7 @@ const reducer = (state = initialState, action) => {
       };
 
       case DELETE_CLIENT: 
-      console.log('El REDUCERRR ',action.payload)
+      console.log('El REDUCERRR ',action.payload)       
       return {
       ...state,
       all_client: [...state.all_client],
