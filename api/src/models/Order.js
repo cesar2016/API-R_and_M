@@ -5,11 +5,11 @@ module.exports = (sequelize) => {
   // defino el modelo
   const Order = sequelize.define('order', {
     dateA: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true,
         },
     dateB: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true,
         },
     tool: {
@@ -26,13 +26,13 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       // allowNull: false,
     },
-    status: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    clientId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true
-    }
+    // status: {
+    //   type: DataTypes.BOOLEAN,
+    //   allowNull: false
+    // },
+    // clientId: {
+    //   type: DataTypes.INTEGER,
+    //   primaryKey: true
+    // }
   });
 };

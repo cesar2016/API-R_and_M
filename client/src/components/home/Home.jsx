@@ -201,6 +201,7 @@ console.log("ID CLIENTE", input.client)
 
         <div>
         <Button
+        type="submit"
         variant="contained"
         color="primary"
         className={classes.button}

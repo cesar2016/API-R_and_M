@@ -5,25 +5,12 @@ const { Order } = require('../db.js');
 
 server.post('/', (req, res, next) => {
   console.log("Lo que me llega como body es: ", req.body)
-  Order.findOne({
-    where: {
-      client: req.body.client,
-      status: "true"
-    }})
-    .then(order => {
-      if(!order) {
-        Order.create({
-          client: req.body.client,
-          status: "true"
-        })
-    .then(created =>
-      res.status(200)
-      .send(created)
-      )}
-      else
-        return res.status(201).send(order)
-  }).catch(next);
-});
+  Order.create(req.body)
+      .then(data => {
+        res.send(data)
+    })
+  }
+)
 
 //GET --> Obtiene todas las ordenes existentes
 
