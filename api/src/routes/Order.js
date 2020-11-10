@@ -7,13 +7,13 @@ server.post('/', (req, res, next) => {
   console.log("Lo que me llega como body es: ", req.body)
   Order.findOne({
     where: {
-      clientId: req.body.clientId,
+      client: req.body.client,
       status: "true"
     }})
     .then(order => {
       if(!order) {
         Order.create({
-          clientId: req.body.clientId,
+          client: req.body.client,
           status: "true"
         })
     .then(created =>

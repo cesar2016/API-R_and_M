@@ -10,18 +10,12 @@ import Button from '@material-ui/core/Button';
 // tables
 import clsx from 'clsx';
  
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
+
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import MenuItem from '@material-ui/core/MenuItem';
+import Icon from '@material-ui/core/Icon';
+import Grid from '@material-ui/core/Grid';
  
  
 
@@ -47,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     width: '25ch',
   },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}) {
@@ -54,7 +51,6 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
   useEffect(() => {
     getAllTools();
     getClient();
-    order();
     },[])
 
   const classes = useStyles();
@@ -64,7 +60,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
     fdesde: '',
     fhasta: '',
     precio: '',
-    nota: '',
+    comentario: '',
   });
 
   const handleChange = (e) => {
@@ -73,6 +69,27 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
       [e.target.name]: e.target.value,
     });
   };
+
+console.log("ID HERRAMIENTA", input.herramienta)
+console.log("ID CLIENTE", input.client)
+
+  const handleSubmit = function(e) {
+    e.preventDefault();
+    alert();
+
+      let data = {
+        // id: order.id,
+        client: document.getElementById('client').value,
+        herramienta: document.getElementById('herramienta').value,
+        fdesde: document.getElementById('fdesde').value,
+        fhasta: document.getElementById('fhasta').value,
+        precio: document.getElementById('precio').value,
+        nota: document.getElementById('comentario').value,
+      }
+      // global.data = data,
+      order(data)
+      console.log("ACTION ORDER", order(data))
+  }
 
   console.log('los inputs ',input)
 
@@ -88,8 +105,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
       </Link>
       <Typography color="textPrimary">Herramientas</Typography>
     </Breadcrumbs>
-    <p></p>
-
+    <form onSubmit={handleSubmit}>
     <div className={classes.root}>
 
       <TextField
@@ -102,7 +118,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
           helperText="Selecciones un cliente"
           variant="outlined"
         >
-          {all_client ? all_client.map((option) => (
+          {all_client ? all_client.map(option => (
             <MenuItem value={option.id}>
               {option.name + ' ' + option.lastname}
             </MenuItem>
@@ -159,35 +175,44 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
 
       <TextField
           onChange={handleChange}
-          label="Precio $ *"
+          label="Precio"
           id="precio"
           name="precio"
           required
           className={clsx(classes.margin, classes.textField)}
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>,
-          }}
+          // InputProps={{
+          //   startAdornment: <InputAdornment position="start"></InputAdornment>,
+          // }}
           variant="outlined"
         />
 
-      <FormControl fullWidth className={classes.margin} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-amount">Anotar</InputLabel>
-          <OutlinedInput
-            id="nota"
-            name="nota"
-            required
-            onChange={handleChange}
-           //onChange={handleChange('amount')}
-            startAdornment={<InputAdornment position="start">Comentario</InputAdornment>}
-            labelWidth={60}
-          />
-        </FormControl>
+      <Grid item xs={12}>
+        <TextField
+          className={classes.root}
+          id="comentario"
+          label="Comentario *"
+          // placeholer="Comentario"
+          multiline
+          rows={4}
+          variant="outlined"
+          maxWidth
+          alignItems="flex-start"
+        />
+
         <div>
-        <Button onClick={() => order()} variant="contained" color="secondary">
-          ENVIAR
+        <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        endIcon={<Icon>send</Icon>}
+        alignItems="flex-start"
+        >
+        ENVIAR
         </Button>
         </div>
-    </div>
+      </Grid>
+        </div>
+        </form>
     </div>
   )}
 
@@ -197,7 +222,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getClient: () => dispatch(getClient()),
       updateTools: (tools) => dispatch(updateTools(tools)),
-      order: () => dispatch(order())
+      order: (data) => dispatch(order(global.data))
     }
   }
 

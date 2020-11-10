@@ -214,7 +214,7 @@ export function updateTools(tool) {
 export function updateClient(client) {
   // console.log("El updateClient llega", client)
   return function(dispatch) {
-  return axios.post(`http://localhost:3005/clients/updateClient/${client.id}`, client, { withCredentials: true })
+  return axios.put(`http://localhost:3005/clients/updateClient/${client.id}`, client, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -266,6 +266,7 @@ export function order(order) {
           type: ORDER,
           payload: data,
         });
+        console.log("order devuelve..", data)
       });
   };
 }
