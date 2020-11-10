@@ -28,7 +28,8 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
     dni: "",
     email: "",
     adress: "",
-    phone: ""
+    phone: "",
+    bussiness: ""
   })
 
   const handleChangeClient = function(e) {
@@ -37,6 +38,8 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
     [e.target.name]: e.target.value
    });
   }
+
+  console.log(inputClient)
 
   const handleSubmit = function(e){
     e.preventDefault();
@@ -70,6 +73,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                      autoFocus
                      margin="dense"
                      id="name"
+                     name="name"
                      defaultValue={all_client.name}
                      label="Nombre/s(*)"
                      InputLabelProps={{
@@ -86,6 +90,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                      defaultValue={all_client.lastname}
                      margin="dense"
                      id="lastname"
+                     name="lastname"
                      label="Apellido/s(*)"
                      InputLabelProps={{
                         shrink: true,
@@ -101,6 +106,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                      defaultValue={all_client.dni}
                      margin="dense"
                      id="dni"
+                     name="dni"
                      label="Dni(*)"
                      type="number"
                      InputLabelProps={{
@@ -116,6 +122,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                    defaultValue={all_client.email}
                    margin="dense"
                    id="email"
+                   name="email"
                    label="Email(*)"
                    type="email"
                    InputLabelProps={{
@@ -131,6 +138,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                    defaultValue={all_client.adress}
                    margin="dense"
                    id="adress"
+                   name="address"
                    label="Dirección(*)"
                    type="text"
                    InputLabelProps={{
@@ -146,8 +154,25 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                    defaultValue={all_client.phone}
                    margin="dense"
                    id="phone"
+                   name="phone"
                    label="Teléfono(*)"
                    type="number"
+                   InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    onChange={handleChangeClient}
+                 />
+                 </Grid>
+                 <Grid item sm={12} md={4}>
+                 <TextField
+                   autoFocus
+                   defaultValue={all_client.bussiness}
+                   margin="dense"
+                   id="bussiness"
+                   name="bussiness"
+                   label="Empresa(*)"
+                   type="text"
                    InputLabelProps={{
                       shrink: true,
                     }}
@@ -175,7 +200,7 @@ const mapDispatchToProps = dispatch => {
 
   return {
     getClient: () => dispatch(getClient()),
-    insertClient: (inputClient) => dispatch(insertClient())
+    insertClient: (inputClient) => dispatch(insertClient(inputClient))
   }
   }
 

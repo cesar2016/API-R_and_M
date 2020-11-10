@@ -25,47 +25,47 @@ server.get('/search', (req, res) => {
 	.catch(err => console.log(err))
 })
 
-server.post('/register', (req, res) => {
-	Client.create(req.body.data)
+server.post('/addClient', (req, res) => {
+console.log(req.body)
+	Client.create(req.body)
 	.then(data => res.send(data))
 	.catch(err => console.log(err))
 })
 
-// server.post('/insertClients', (req, res, next) => {
-// 	Client.create(req.body)
-// 	.then(date => {
-// 	  res.send(date)
-//   })
-// })
 
-server.put('/update/:id', (req, res) => {
-	const { name, lastname, dni, password, email } = req.body;
-	console.log("este es id", req.params.id)
-	Client.findOne({
-		where: { id: req.params.id }
-	}).then(cliente => {
-		console.log("este es cliente", cliente)
+server.put('/updateClient/:id', (req, res) => {
+	const { name, lastname, dni, email, phoneA, city, address, bussiness } = req.body
+    console.log(name, lastname, dni, email, phoneA, city, address, bussiness )
+    Client.findOne({where: {id: req.params.id}})
+    .then(cliente => {
 		cliente.update({
 			name,
-			lastname,
-			dni,
-			password,
-			email
-		})
+			lastname, 
+			dni, 
+			email, 
+			phoneA, 
+			city, 
+			address, 
+			bussiness
+        })
+        return cliente
 	})
+    .then(cliente => {
+        res.send(cliente)
+    })
+    .catch(err => {
+        console.log("este es el error", err)
+        return err
+    })
 })
 
 server.delete('/delete/:id', (req, res) => {
-	Client.findOne({
-		where: {
-			id: req.params.id
-		}
-	}).then(cliente => {
-		var aux = cliente
-		cliente.destroy()
-		res.send(aux).status(201)
-	})
-	.catch(err => console.log(err))
+	const { id } = req.params;
+	Client.destroy({ where: { id } })
+		.then(result => {            
+			res.sendStatus(200);
+		})
+		.catch(() => res.status(404))
 })
 
 

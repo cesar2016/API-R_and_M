@@ -99,6 +99,7 @@ const reducer = (state = initialState, action) => {
       }
 
       case INSERT_CLIENT:
+        console.log('llega al reducer ',action.payload)
       return {
         ...state, 
         all_client: [...state.all_client, action.payload] //Usar esto para actualizar el estado
@@ -119,15 +120,16 @@ const reducer = (state = initialState, action) => {
       };
 
       case DELETE_CLIENT: 
+      console.log('El REDUCERRR ',action.payload)
       return {
       ...state,
-      all_client: [...state.all_client.filter(client => client.id !== action.payload)]
+      all_client: [...state.all_client],
       }
 
       case TOOLS_DELETE: 
       return {
       ...state,
-      all_tools: [...state.all_tools]
+      all_tools: [...state.all_tools],
       }
 
       case TOOLS_DELETE: 

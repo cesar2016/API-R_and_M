@@ -129,7 +129,6 @@ server.post('/registerhd', (req, res) => {
     name: 'Cesar',
     lastname: "Sanchez",
     dni: 38272939,
-    password: 1234,
     email: "asd8@gmail.com",
   }
 
@@ -139,7 +138,6 @@ Client.create(client1)
     name: 'Facundo',
     lastname: "Sadava",
     dni: 38272939,
-    password: 1234,
     email: "asd7@gmail.com",
   }
   
@@ -149,7 +147,6 @@ Client.create(client2)
     name: 'Alex',
     lastname: "Velazquez",
     dni: 38272939,
-    password: 1234,
     email: "asd6@gmail.com",
   }
 
@@ -159,7 +156,6 @@ Client.create(client3)
     name: 'Leonel',
     lastname: "Messi",
     dni: 38272939,
-    password: 1234,
     email: "asd5@gmail.com",
   }
 
@@ -169,7 +165,6 @@ Client.create(client4)
     name: 'Sergio',
     lastname: "Aguero",
     dni: 38272939,
-    password: 1234,
     email: "asd4@gmail.com",
   }
 
@@ -179,7 +174,6 @@ Client.create(client5)
     name: 'Diego',
     lastname: "Acosta",
     dni: 38272939,
-    password: 1234,
     email: "asd3@gmail.com",
   }
 
@@ -189,7 +183,6 @@ Client.create(client6)
     name: 'Andrea',
     lastname: "Anderson",
     dni: 38272939,
-    password: 1234,
     email: "asd2@gmail.com",
   }
 
@@ -198,8 +191,7 @@ Client.create(client7)
   const client8 = {
     name: 'Carola',
     lastname: "Bianco",
-    dni: 38272939,
-    password: 1234,
+    dni: 38272939,    
     email: "asd1@gmail.com",
   }
 
