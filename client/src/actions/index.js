@@ -58,7 +58,7 @@ export function getClient() {
         type: "ALL_CLIENT",
         payload: data
       })
-      console.log("Estos son todos los clientes", data)
+      //console.log("Estos son todos los clientes", data)
     })
   }
 }
@@ -183,8 +183,9 @@ export function insertTools(tools) {
 
 export function insertClient(client) {
   console.log("El insertClient llega", client)
+
   return function(dispatch) {
-  return axios.post(`http://localhost:3005/clients/register`, client, { withCredentials: true })
+  return axios.post(`http://localhost:3005/clients/addClient`, client, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -211,9 +212,9 @@ export function updateTools(date) {
 }
 
 export function updateClient(client) {
-  // console.log("El updateClient llega", client)
+console.log("El updateClient llega", client)
   return function(dispatch) {
-  return axios.post(`http://localhost:3005/clients/updateClient/${client.id}`, client, { withCredentials: true })
+  return axios.put(`http://localhost:3005/clients/updateClient/${client.id}`, client, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -225,10 +226,10 @@ export function updateClient(client) {
   }
 }
 
-export function deleteClient(client) {
-  console.log("El deleteClient llega")
+export function deleteClient(id) {
+  console.log("El deleteClient ID llega", id)
   return function(dispatch) {
-  return axios.delete(`http://localhost:3005/clients/delete/${client.id}`, client, { withCredentials: true })
+  return axios.delete(`http://localhost:3005/clients/delete/${id}`, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({

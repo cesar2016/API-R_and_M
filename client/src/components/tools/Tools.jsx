@@ -6,6 +6,7 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ModalCategory from './ModalCategory';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 //Modal
 import Button from '@material-ui/core/Button';
@@ -35,7 +36,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-import { getAllTools, insertTools, getAllCategory, updateTools } from '../../actions/index';
+import { getAllTools, insertTools, getAllCategory, updateTools, deleteTools } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -50,7 +51,7 @@ const useStyles = makeStyles({
   }
 });
 
-function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools }) {
+function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools, deleteTools }) {
   useEffect(() => {
     getAllTools();
     getAllCategory();
@@ -131,7 +132,28 @@ console.log(tools.categoryId)
   }
 
   
- 
+ function toolDelete(id){  
+   global.idTools = id
+   Swal.fire({
+    title: 'ATENCION!',
+    text: "Vas a eliminar una herramienta ...",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteTools(id)
+      getAllTools();
+      Swal.fire(
+        'Eliminada!',
+        'Con exito.',
+        'success'
+      )
+    }
+  })
+ }
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -288,7 +310,7 @@ console.log(tools.categoryId)
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete" >
+             <IconButton aria-label="delete" onClick={()=>toolDelete(row.id)} >
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -315,6 +337,7 @@ console.log(tools.categoryId)
   const mapDispatchToProps = dispatch => {
     return {
       getAllTools: () => dispatch(getAllTools()),
+      deleteTools: ( idTools) => dispatch(deleteTools( global.idTools)),
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getAllCategory: () => dispatch(getAllCategory()),
       updateTools: (tools)=> dispatch(updateTools(tools)) 
