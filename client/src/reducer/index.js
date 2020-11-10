@@ -14,7 +14,8 @@ import {
     UPDATE_CLIENT,
     DELETE_CLIENT,
     TOOLS_DELETE,
-    USER_LOGOUT
+    USER_LOGOUT,
+    ORDER
     //INSERT_CATEGORY
 } from "../actions/index";
 
@@ -24,6 +25,7 @@ const initialState = {
   all_tools: [],
   all_categorys: [],
   users: true,
+  orders: []
 };
 
 
@@ -123,10 +125,23 @@ const reducer = (state = initialState, action) => {
       ...state,
       all_client: [...state.all_client],
       }
+
       case TOOLS_DELETE: 
       return {
       ...state,
       all_tools: [...state.all_tools],
+      }
+
+      case TOOLS_DELETE: 
+      return {
+      ...state,
+      all_tools: [...state.all_tools]
+      }
+
+      case ORDER: 
+      return {
+      ...state,
+      orders: action.payload
       }
 
     default:

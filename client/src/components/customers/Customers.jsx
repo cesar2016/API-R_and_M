@@ -145,7 +145,15 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
 
   
   return (
-    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}>  
+    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}>
+    <Toolbar />
+    <h5>Clientes</h5>
+    <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
+      <Link color="inherit" href="/" >
+        Inicio
+      </Link>
+      <Typography color="textPrimary">Clientes</Typography>
+    </Breadcrumbs>
     <Grid container>
        <Grid item sm={12} align="right">
         <Button variant="contained" color="primary" className={classes.button} onClick={()=>handleOpen(client)}>

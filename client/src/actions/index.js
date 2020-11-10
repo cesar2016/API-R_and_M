@@ -19,6 +19,7 @@ export const UPDATE_TOOLS = "UPDATE_TOOLS";
 export const UPDATE_CLIENT = "UPDATE_CLIENT";
 export const DELETE_CLIENT = "DELETE_CLIENT";
 export const TOOLS_DELETE = "TOOLS_DELETE"
+export const ORDER = "ORDER"
 
 
 // export function infoMovie (apiKey, ciudad ) {
@@ -196,10 +197,10 @@ export function insertClient(client) {
     })
   }
 }
-export function updateTools(date) {
+export function updateTools(tool) {
   //console.log("El UPDATE_TOOLS llega", date)
   return function(dispatch) {
-  return axios.put(`http://localhost:3005/tools/update/${date.id}`, date, { withCredentials: true })
+  return axios.put(`http://localhost:3005/tools/update/${tool.id}`, tool, { withCredentials: true })
     .then(result => result.data)
     .then(data => {
       dispatch({
@@ -245,11 +246,25 @@ export function deleteTools(id) {
   console.log("el id en actions ", id)
   return function (dispatch) {
     return axios
-      .delete(`http://localhost:3005/tools/delete/${id}`)
-      .then((res) => res.data)
-      .then((data) => {
+      .delete(`http://localhost:3005/tools/delete/${id}`, { withCredentials: true })
+      .then(res => res.data)
+      .then(data => {
         dispatch({
           type: TOOLS_DELETE,
+          payload: data,
+        });
+      });
+  };
+}
+
+export function order(order) {
+  console.log("Order tiene ", order)
+  return function (dispatch) {
+    return axios.post(`http://localhost:3005/orders`, order, { withCredentials: true })
+      .then(res => res.data)
+      .then(data => {
+        dispatch({
+          type: ORDER,
           payload: data,
         });
       });

@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
  
  
 
-import { getAllTools, insertTools, getClient, updateTools } from '../../actions/index';
+import { getAllTools, insertTools, getClient, updateTools, order } from '../../actions/index';
 import { connect } from 'react-redux';
  
 
@@ -49,12 +49,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alquilar({getClient, all_client, getAllTools, all_tools}) {
+function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}) {
 
   useEffect(() => {
     getAllTools();
     getClient();
+    order();
     },[])
+
   const classes = useStyles();
   const [input, setInput] = React.useState({
     client: '',
@@ -73,13 +75,13 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
   };
 
   console.log('los inputs ',input)
- 
- 
+
+
   return (
+
     <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}> 
-      
     <Toolbar />
-    <h5>ALQUILAR</h5>
+    <h5>Alquilar</h5>
     <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
       <Link color="inherit" href="/" >
         Inicio
@@ -87,33 +89,32 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
       <Typography color="textPrimary">Herramientas</Typography>
     </Breadcrumbs>
     <p></p>
-    
+
     <div className={classes.root}>
-       
+
       <TextField
           id="client"
           name="client"
           select
-          label="Nombre Cliente"  
-          required         
+          label="Nombre Cliente"
+          required
           onChange={handleChange}
           helperText="Selecciones un cliente"
           variant="outlined"
         >
           {all_client ? all_client.map((option) => (
             <MenuItem value={option.id}>
-              {option.name +' '+option.lastname}
+              {option.name + ' ' + option.lastname}
             </MenuItem>
           )): 'No hay clientes cargados'}
         </TextField>
-         
-         
+
         <TextField
           id="herramienta"
           name="herramienta"
           required
           select
-          label="Herramienta"           
+          label="Herramienta"
           onChange={handleChange}
           helperText="Seleccione una herramienta"
           variant="outlined"
@@ -124,11 +125,10 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
             </MenuItem>
           )): 'Aun no hay herramintas cargadas'}
         </TextField>
-        
-       
+
     </div>
     <div className={classes.root}>
-    
+
       <TextField
           onChange={handleChange}
           label="Fecha desde *"
@@ -142,6 +142,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
           }}
           variant="outlined"
         />
+
       <TextField
           onChange={handleChange}
           label="Fecha hasta *"
@@ -155,6 +156,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
           }}
           variant="outlined"
         />
+
       <TextField
           onChange={handleChange}
           label="Precio $ *"
@@ -167,6 +169,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
           }}
           variant="outlined"
         />
+
       <FormControl fullWidth className={classes.margin} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-amount">Anotar</InputLabel>
           <OutlinedInput
@@ -180,11 +183,10 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
           />
         </FormControl>
         <div>
-        <Button variant="contained" color="secondary">
+        <Button onClick={() => order()} variant="contained" color="secondary">
           ENVIAR
         </Button>
         </div>
-        
     </div>
     </div>
   )}
@@ -194,15 +196,16 @@ function Alquilar({getClient, all_client, getAllTools, all_tools}) {
       getAllTools: () => dispatch(getAllTools()),
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getClient: () => dispatch(getClient()),
-      updateTools: (tools)=> dispatch(updateTools(tools)) 
+      updateTools: (tools) => dispatch(updateTools(tools)),
+      order: () => dispatch(order())
     }
   }
 
   const mapStateToProps = state => {
     return {
       all_tools: state.all_tools,
-      all_client: state.all_client
-
+      all_client: state.all_client,
+      orders: state.orders
     }
   }
 
