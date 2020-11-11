@@ -6,20 +6,13 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Swal from 'sweetalert2';
-
-
 // tables
 import clsx from 'clsx';
- 
-
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
- 
- 
-
 import { getAllTools, insertTools, getClient, updateTools, order } from '../../actions/index';
 import { connect } from 'react-redux';
  
