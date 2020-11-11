@@ -5,21 +5,19 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Swal from 'sweetalert2/src/sweetalert2.js'
-
-
+ 
+import Swal from 'sweetalert2';
+ 
+ 
+//import Swal from 'sweetalert2/src/sweetalert2.js'
+ 
 // tables
 import clsx from 'clsx';
- 
-
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
- 
- 
-
 import { getAllTools, insertTools, getClient, updateTools, order } from '../../actions/index';
 import { connect } from 'react-redux';
  
@@ -56,12 +54,13 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
 
   const classes = useStyles();
   const [input, setInput] = React.useState({
-    clientId: '',
-    tool: '',
-    dateA: '',
-    dateB: '',
-    price: '',
-    commentA: '',
+    client: '',
+    herramienta: '',
+    cant:'',
+    fdesde: '',
+    fhasta: '',
+    precio: '',
+    comentario: '',
   });
 
   const handleChange = (e) => {
@@ -73,13 +72,21 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
 
   const handleSubmit = function(e) {
     e.preventDefault();
-    order(input)
-    Swal.fire({
-      icon: 'success',
-      title: 'Orden agregada correctamente!',
-      showConfirmButton: false,
-      timer: 1500
-    })
+    alert();
+
+      let data = {
+        // id: order.id,
+        client: document.getElementById('client').value,
+        herramienta: document.getElementById('herramienta').value,
+        cantidad: document.getElementById('cant').value,
+        fdesde: document.getElementById('fdesde').value,
+        fhasta: document.getElementById('fhasta').value,
+        precio: document.getElementById('precio').value,
+        nota: document.getElementById('comentario').value,
+      }
+      // global.data = data,
+      order(data)
+      console.log("ACTION ORDER", order(data))
   }
 
 
@@ -130,6 +137,19 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
             </MenuItem>
           )): 'Aun no hay herramintas cargadas'}
         </TextField>
+        <TextField
+          onChange={handleChange}
+          label="Cantidad *"
+          id="cant"
+          name="cant"
+          required
+          type="number"
+          className={clsx(classes.margin, classes.textField)}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"></InputAdornment>,
+          }}
+          variant="outlined"
+        />
 
     </div>
     <div className={classes.root}>
