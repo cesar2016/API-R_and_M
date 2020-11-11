@@ -5,6 +5,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Swal from 'sweetalert2';
 
 
 // tables
@@ -71,9 +72,6 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
     });
   };
 
-console.log("ID HERRAMIENTA", input.herramienta)
-console.log("ID CLIENTE", input.client)
-
   const handleSubmit = function(e) {
     e.preventDefault();
     alert();
@@ -93,8 +91,6 @@ console.log("ID CLIENTE", input.client)
       console.log("ACTION ORDER", order(data))
   }
 
-  console.log('los inputs ',input)
-
 
   return (
 
@@ -112,7 +108,7 @@ console.log("ID CLIENTE", input.client)
 
       <TextField
           id="client"
-          name="client"
+          name="clientId"
           select
           label="Nombre Cliente"
           required
@@ -129,7 +125,7 @@ console.log("ID CLIENTE", input.client)
 
         <TextField
           id="herramienta"
-          name="herramienta"
+          name="tool"
           required
           select
           label="Herramienta"
@@ -164,7 +160,7 @@ console.log("ID CLIENTE", input.client)
           onChange={handleChange}
           label="Fecha desde *"
           id="fdesde"
-          name="fdesde"
+          name="dateA"
           required
           type="date"
           className={clsx(classes.margin, classes.textField)}
@@ -179,7 +175,7 @@ console.log("ID CLIENTE", input.client)
           label="Fecha hasta *"
           type="date"
           id="fhasta"
-          name="fhasta"
+          name="dateB"
           required
           className={clsx(classes.margin, classes.textField)}
           InputProps={{
@@ -192,7 +188,7 @@ console.log("ID CLIENTE", input.client)
           onChange={handleChange}
           label="Precio"
           id="precio"
-          name="precio"
+          name="price"
           required
           className={clsx(classes.margin, classes.textField)}
           // InputProps={{
@@ -205,6 +201,7 @@ console.log("ID CLIENTE", input.client)
         <TextField
           className={classes.root}
           id="comentario"
+          name="commentA"
           label="Comentario *"
           // placeholer="Comentario"
           multiline
@@ -212,6 +209,8 @@ console.log("ID CLIENTE", input.client)
           variant="outlined"
           maxWidth
           alignItems="flex-start"
+          onChange={handleChange}
+
         />
 
         <div>
@@ -238,7 +237,7 @@ console.log("ID CLIENTE", input.client)
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getClient: () => dispatch(getClient()),
       updateTools: (tools) => dispatch(updateTools(tools)),
-      order: (data) => dispatch(order(global.data))
+      order: (data) => dispatch(order(data))
     }
   }
 

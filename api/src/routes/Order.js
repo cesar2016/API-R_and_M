@@ -9,6 +9,7 @@ server.post('/', (req, res, next) => {
       .then(data => {
         res.send(data)
     })
+    .catch(err => console.log(err))
   }
 )
 

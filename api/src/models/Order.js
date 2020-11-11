@@ -26,6 +26,10 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       // allowNull: false,
     },
+    cant: {
+      type: DataTypes.INTEGER,
+      // allowNull: false,
+    },
     // status: {
     //   type: DataTypes.BOOLEAN,
     //   allowNull: false
