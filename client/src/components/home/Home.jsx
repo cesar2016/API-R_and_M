@@ -5,7 +5,11 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+<<<<<<< HEAD
 import Swal from 'sweetalert2';
+=======
+import Swal from 'sweetalert2/src/sweetalert2.js'
+>>>>>>> 39c51d252759e77b2b25f2823fbcb1e95558ca8b
 
 
 // tables
