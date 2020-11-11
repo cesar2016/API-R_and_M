@@ -72,20 +72,13 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
 
   const handleSubmit = function(e) {
     e.preventDefault();
-    alert();
-
-      let data = {
-        // id: order.id,
-        clientId: document.getElementById('client').value,
-        tool: document.getElementById('herramienta').value,
-        dateA: document.getElementById('fdesde').value,
-        dateB: document.getElementById('fhasta').value,
-        price: document.getElementById('precio').value,
-        commentA: document.getElementById('comentario').value,
-      }
-      // global.data = data,
-      order(input)
-      console.log("ACTION ORDERRR linea 91 home", data, "AAAAAA", input)
+    order(input)
+    Swal.fire({
+      icon: 'success',
+      title: 'Orden agregada correctamente!',
+      showConfirmButton: false,
+      timer: 1500
+    })
   }
 
 
