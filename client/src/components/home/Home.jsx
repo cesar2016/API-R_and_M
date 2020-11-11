@@ -55,12 +55,12 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
 
   const classes = useStyles();
   const [input, setInput] = React.useState({
-    client: '',
-    herramienta: '',
-    fdesde: '',
-    fhasta: '',
-    precio: '',
-    comentario: '',
+    clientId: '',
+    tool: '',
+    dateA: '',
+    dateB: '',
+    price: '',
+    commentA: '',
   });
 
   const handleChange = (e) => {
@@ -70,28 +70,23 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
     });
   };
 
-console.log("ID HERRAMIENTA", input.herramienta)
-console.log("ID CLIENTE", input.client)
-
   const handleSubmit = function(e) {
     e.preventDefault();
     alert();
 
       let data = {
         // id: order.id,
-        client: document.getElementById('client').value,
-        herramienta: document.getElementById('herramienta').value,
-        fdesde: document.getElementById('fdesde').value,
-        fhasta: document.getElementById('fhasta').value,
-        precio: document.getElementById('precio').value,
-        nota: document.getElementById('comentario').value,
+        clientId: document.getElementById('client').value,
+        tool: document.getElementById('herramienta').value,
+        dateA: document.getElementById('fdesde').value,
+        dateB: document.getElementById('fhasta').value,
+        price: document.getElementById('precio').value,
+        commentA: document.getElementById('comentario').value,
       }
       // global.data = data,
-      order(data)
-      console.log("ACTION ORDER", order(data))
+      order(input)
+      console.log("ACTION ORDERRR linea 91 home", data, "AAAAAA", input)
   }
-
-  console.log('los inputs ',input)
 
 
   return (
@@ -110,7 +105,7 @@ console.log("ID CLIENTE", input.client)
 
       <TextField
           id="client"
-          name="client"
+          name="clientId"
           select
           label="Nombre Cliente"
           required
@@ -127,7 +122,7 @@ console.log("ID CLIENTE", input.client)
 
         <TextField
           id="herramienta"
-          name="herramienta"
+          name="tool"
           required
           select
           label="Herramienta"
@@ -149,7 +144,7 @@ console.log("ID CLIENTE", input.client)
           onChange={handleChange}
           label="Fecha desde *"
           id="fdesde"
-          name="fdesde"
+          name="dateA"
           required
           type="date"
           className={clsx(classes.margin, classes.textField)}
@@ -164,7 +159,7 @@ console.log("ID CLIENTE", input.client)
           label="Fecha hasta *"
           type="date"
           id="fhasta"
-          name="fhasta"
+          name="dateB"
           required
           className={clsx(classes.margin, classes.textField)}
           InputProps={{
@@ -177,7 +172,7 @@ console.log("ID CLIENTE", input.client)
           onChange={handleChange}
           label="Precio"
           id="precio"
-          name="precio"
+          name="price"
           required
           className={clsx(classes.margin, classes.textField)}
           // InputProps={{
@@ -190,6 +185,7 @@ console.log("ID CLIENTE", input.client)
         <TextField
           className={classes.root}
           id="comentario"
+          name="commentA"
           label="Comentario *"
           // placeholer="Comentario"
           multiline
@@ -197,6 +193,8 @@ console.log("ID CLIENTE", input.client)
           variant="outlined"
           maxWidth
           alignItems="flex-start"
+          onChange={handleChange}
+
         />
 
         <div>
@@ -223,7 +221,7 @@ console.log("ID CLIENTE", input.client)
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getClient: () => dispatch(getClient()),
       updateTools: (tools) => dispatch(updateTools(tools)),
-      order: (data) => dispatch(order(global.data))
+      order: (data) => dispatch(order(data))
     }
   }
 
