@@ -57,6 +57,7 @@ function Alquilar({getClient, all_client, getAllTools, all_tools, order, orders}
   const [input, setInput] = React.useState({
     client: '',
     herramienta: '',
+    cant:'',
     fdesde: '',
     fhasta: '',
     precio: '',
@@ -81,6 +82,7 @@ console.log("ID CLIENTE", input.client)
         // id: order.id,
         client: document.getElementById('client').value,
         herramienta: document.getElementById('herramienta').value,
+        cantidad: document.getElementById('cant').value,
         fdesde: document.getElementById('fdesde').value,
         fhasta: document.getElementById('fhasta').value,
         precio: document.getElementById('precio').value,
@@ -141,6 +143,19 @@ console.log("ID CLIENTE", input.client)
             </MenuItem>
           )): 'Aun no hay herramintas cargadas'}
         </TextField>
+        <TextField
+          onChange={handleChange}
+          label="Cantidad *"
+          id="cant"
+          name="cant"
+          required
+          type="number"
+          className={clsx(classes.margin, classes.textField)}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"></InputAdornment>,
+          }}
+          variant="outlined"
+        />
 
     </div>
     <div className={classes.root}>
