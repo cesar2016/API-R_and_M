@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 // tables
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,6 +11,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 // buttons
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -26,12 +27,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 
-import { getClient } from '../../actions/index';
+
+import { getClient, deleteClient, updateClient, insertClient } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -46,22 +44,15 @@ const useStyles = makeStyles({
   }
 });
 
-// const customers = [
-//   { name:'Carlos',lastname:'Bilardo',dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
-//   { name:'Diego Armando',lastname:'Maradona',dni:'38192012',phone:'02214914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},
-//   { name:'Lionel',lastname:'Messi' ,dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
-//   { name:'Ricardo', lastname:'Fort',dni:'38192012',phone:'02214914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},
-//   { name:'Alejandro',lastname:'Fantino',dni:'38192012',phone:'02214914585', email:'carlosbilardo@gmail.com', adress:'Calle 1 y 57'},
-//   { name:'Ricardo',lastname:'Darin',dni:'38192012',phone:'0221-4914585',email:'diegomaradona@gmail.com',adress:'Avenida 60 y 118'},];
-function Customers({ getClient, all_client }) {
+function Customers({ getClient, all_client, deleteClient, updateClient, insertClient }) {
   const classes = useStyles();
 
   useEffect(() => {
-    getClient()
+    getClient();
     },[])
 
   const [open, setOpen] = React.useState(false);
-  const [client, setClient] = React.useState({name:'',dni:'',phone:'',email:'',adress:''});
+  const [client, setClient] = React.useState({name:'', lastname:"" ,dni:'',phoneA:'', city:'' ,email:'',address:'', bussiness:""});
 
   const handleOpen = (item) => {
       setClient(item)
@@ -69,21 +60,46 @@ function Customers({ getClient, all_client }) {
   };
   const handleClose = () => {
     setClient({name:null,
+             lastname:null,
              dni:null,
              description:null,
-             phone:null,
+             phoneA:null,
+             city:null,
              email:null,
-             adress:null,
+             address:null,
+             bussiness:null
             })
     setOpen(false)
   };
 
+  
+
   const handleSubmit = function(e){
-    e.preventDefault();
-    // insertTools(tools);
-    // getAllTools();
-    // onClose(false);
+  e.preventDefault();
+  // console.log('El ID De CLIENT', client.id)
+
+  if(client.id){
+    let customer = {
+      id: client.id,
+      name: document.getElementById('name').value,
+      lastname: document.getElementById('lastname').value,
+      dni: document.getElementById('dni').value,
+      phoneA: document.getElementById('phoneA').value,
+      city: document.getElementById('city').value,
+      email: document.getElementById('email').value,
+      bussiness: document.getElementById('bussiness').value,
+      address: document.getElementById('address').value
+      }
+    global.customer = customer
+    updateClient(customer)
+    console.log('EL customerrr  ',customer)
+    handleClose()
+  }else{
+    insertClient(client);
+    handleClose()
   }
+ 
+}
 
   const handleChangeClient = function(e) {
     const {id, value } = e.target
@@ -93,19 +109,47 @@ function Customers({ getClient, all_client }) {
     });
   }
 
+   
   // pagination
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
+  function clientDelete(id, name, lastname){  
+    global.idClient = id     
+    Swal.fire({
+     title: 'ATENCION!',
+     text: "Vas a eliminar a: " + name +" "+lastname ,
+     icon: 'warning',
+     showCancelButton: true,
+     confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     confirmButtonText: 'Si, eliminar'
+   }).then((result) => {
+     if (result.isConfirmed) {
+      deleteClient(id)
+      getClient();
+      getClient();
+       
+       Swal.fire(
+         'Eliminado!',
+         'Con exito.',
+         'success'
+       )
+     }
+   })
+    
+  }
+
+  
   return (
-    <div>
+    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}>
     <Toolbar />
     <h5>Clientes</h5>
     <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
@@ -145,6 +189,7 @@ function Customers({ getClient, all_client }) {
                      defaultValue={client.lastname}
                      margin="dense"
                      id="lastname"
+                     name="lastname"
                      label="Apellido/s(*)"
                      InputLabelProps={{
                         shrink: true,
@@ -160,8 +205,9 @@ function Customers({ getClient, all_client }) {
                      defaultValue={client.dni}
                      margin="dense"
                      id="dni"
+                     name="dni"
                      label="Dni(*)"
-                     type="number"
+                     type="text"
                      InputLabelProps={{
                         shrink: true,
                       }}
@@ -187,9 +233,9 @@ function Customers({ getClient, all_client }) {
                  <Grid item sm={12} md={4}>
                  <TextField
                    autoFocus
-                   defaultValue={client.adress}
+                   defaultValue={client.address}
                    margin="dense"
-                   id="adress"
+                   id="address"
                    label="Dirección(*)"
                    type="text"
                    InputLabelProps={{
@@ -202,11 +248,44 @@ function Customers({ getClient, all_client }) {
                  <Grid item sm={12} md={4}>
                  <TextField
                    autoFocus
-                   defaultValue={client.phone}
+                   defaultValue={client.phoneA}
                    margin="dense"
-                   id="phone"
+                   id="phoneA"
+                   name="phoneA"
                    label="Teléfono(*)"
                    type="number"
+                   InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    onChange={handleChangeClient}
+                 />
+                 </Grid>
+                 <Grid item sm={12} md={4}>
+                 <TextField
+                   autoFocus
+                   defaultValue={client.city}
+                   margin="dense"
+                   id="city"
+                   name="city"
+                   label="Ciudad(*)"
+                   type="text"
+                   InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    onChange={handleChangeClient}
+                 />
+                 </Grid>
+                 <Grid item sm={12} md={4}>
+                 <TextField
+                   autoFocus
+                   defaultValue={client.bussiness}
+                   margin="dense"
+                   id="bussiness"
+                   name="bussiness"
+                   label="Empresa(*)"
+                   type="text"
                    InputLabelProps={{
                       shrink: true,
                     }}
@@ -236,26 +315,30 @@ function Customers({ getClient, all_client }) {
            <TableCell align="center">DNI</TableCell>
            <TableCell align="center">Teléfono</TableCell>
            <TableCell align="center">Email</TableCell>
-           <TableCell align="center">Dirección</TableCell>
+           <TableCell align="center">Dirección</TableCell>           
+           <TableCell align="center">Ciudad</TableCell>
+           <TableCell align="center">Empresa</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
        <TableBody>
        {all_client ? all_client.map((row) => (
            <TableRow key={row.name}>
-             {console.log("esto es row", row)}
+             {/* {console.log("esto es row", row)} */}
              <TableCell component="th" scope="row">
                {row.name} {row.lastname}
              </TableCell>
-              <TableCell align="center">{row.dni}</TableCell>
-             <TableCell align="center">{row.phone}</TableCell>
+             <TableCell align="center">{row.dni}</TableCell>
+             <TableCell align="center">{row.phoneA}</TableCell>
              <TableCell align="center">{row.email}</TableCell>
-             <TableCell align="center">{row.adress}</TableCell>
+             <TableCell align="center">{row.address}</TableCell>
+             <TableCell align="center">{row.city}</TableCell>
+             <TableCell align="center">{row.bussiness}</TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={() => handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete">
+             <IconButton aria-label="delete" onClick={()=>clientDelete(row.id, row.name, row.lastname)}>
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -277,9 +360,12 @@ function Customers({ getClient, all_client }) {
     </div>
   )}
 
-  const mapDispatchToProps = dispatch => {
+  const mapDispatchToProps = dispatch => {    
     return {
       getClient: () => dispatch(getClient()),
+      deleteClient: (idClient) => dispatch(deleteClient(global.idClient)),
+      insertClient: (client) => dispatch(insertClient(client)),
+      updateClient: (customer) => dispatch(updateClient(global.customer))
     }
   }
 
@@ -289,4 +375,4 @@ function Customers({ getClient, all_client }) {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Customers)
+export default connect(mapStateToProps, mapDispatchToProps)(Customers);

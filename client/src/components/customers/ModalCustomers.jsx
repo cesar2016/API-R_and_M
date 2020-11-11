@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { connect } from "react-redux";
-import { getClient, insertClient } from "../../actions/index";
+import { getClient, insertClient, updateClient } from "../../actions/index";
 
 const useStyles = makeStyles({
   button:{
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   paper: { minWidth: "500px" },
 });
 
-const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertClient }) => {
+const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertClient, updateClient }) => {
   const classes = useStyles();
   // const defaultCustomer = {name:'',dni:'',phone:'',email:'',adress:''};
 
@@ -28,7 +28,8 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
     dni: "",
     email: "",
     adress: "",
-    phone: ""
+    phone: "",
+    bussiness: ""
   })
 
   const handleChangeClient = function(e) {
@@ -38,10 +39,13 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
    });
   }
 
+  console.log(inputClient)
+
   const handleSubmit = function(e){
     e.preventDefault();
     insertClient(inputClient);
     getClient();
+    updateClient(all_client)
   }
 
   const handleOpen = () => {
@@ -69,6 +73,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                      autoFocus
                      margin="dense"
                      id="name"
+                     name="name"
                      defaultValue={all_client.name}
                      label="Nombre/s(*)"
                      InputLabelProps={{
@@ -85,6 +90,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                      defaultValue={all_client.lastname}
                      margin="dense"
                      id="lastname"
+                     name="lastname"
                      label="Apellido/s(*)"
                      InputLabelProps={{
                         shrink: true,
@@ -100,6 +106,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                      defaultValue={all_client.dni}
                      margin="dense"
                      id="dni"
+                     name="dni"
                      label="Dni(*)"
                      type="number"
                      InputLabelProps={{
@@ -115,6 +122,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                    defaultValue={all_client.email}
                    margin="dense"
                    id="email"
+                   name="email"
                    label="Email(*)"
                    type="email"
                    InputLabelProps={{
@@ -130,6 +138,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                    defaultValue={all_client.adress}
                    margin="dense"
                    id="adress"
+                   name="address"
                    label="Dirección(*)"
                    type="text"
                    InputLabelProps={{
@@ -145,8 +154,25 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
                    defaultValue={all_client.phone}
                    margin="dense"
                    id="phone"
+                   name="phone"
                    label="Teléfono(*)"
                    type="number"
+                   InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    onChange={handleChangeClient}
+                 />
+                 </Grid>
+                 <Grid item sm={12} md={4}>
+                 <TextField
+                   autoFocus
+                   defaultValue={all_client.bussiness}
+                   margin="dense"
+                   id="bussiness"
+                   name="bussiness"
+                   label="Empresa(*)"
+                   type="text"
                    InputLabelProps={{
                       shrink: true,
                     }}
@@ -161,7 +187,7 @@ const ModalCustomers = ({ open, onClose, onOpen, getClient, all_client, insertCl
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => updateClient(all_client)} color="primary">
             Agregar
           </Button>
         </DialogActions>
@@ -174,7 +200,7 @@ const mapDispatchToProps = dispatch => {
 
   return {
     getClient: () => dispatch(getClient()),
-    insertClient: (inputClient) => dispatch(insertClient())
+    insertClient: (inputClient) => dispatch(insertClient(inputClient))
   }
   }
 

@@ -13,11 +13,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     dni: {
-      type: DataTypes.INTEGER,      
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING,      
     },
     email: {
     	type: DataTypes.TEXT,       
@@ -28,10 +24,7 @@ module.exports = (sequelize) => {
   },
     phoneA: {
     	type: DataTypes.STRING,
-    },
-    phoneB: {
-      type: DataTypes.STRING,
-    },
+    },    
     city: {
     	type: DataTypes.STRING,
     },
@@ -40,10 +33,6 @@ module.exports = (sequelize) => {
     },
     bussiness: {
     	type: DataTypes.STRING,
-    },
-    admin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    }
+    }    
   });
 };

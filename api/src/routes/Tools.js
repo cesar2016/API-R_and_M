@@ -32,14 +32,15 @@ server.post('/insertTools', (req, res, next) => {
   })
 
 server.put('/update/:id', (req, res, next) => {
-    const { name, description, stock } = req.body
-    console.log(name, description, stock)
+    const { name, description, stock, categoryId } = req.body
+    //console.log(name, description, stock, categoryId)
     Tools.findOne({where: {id: req.params.id}})
     .then(tools => {
 		tools.update({
 			name,
 			description,
-			stock,
+            stock,
+            categoryId
         })
         return tools
 	})
@@ -52,6 +53,15 @@ server.put('/update/:id', (req, res, next) => {
     })
 });
 
+server.delete("/delete/:id", (req, res) => {
+	const { id } = req.params;
+	Tools.destroy({ where: { id } })
+		.then(result => {
+            //res.send(result)
+			res.sendStatus(200);
+		})
+		.catch(() => res.status(404))
+});
 
 //**************************************
 //|                CATEGORIES          |

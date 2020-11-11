@@ -6,6 +6,7 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ModalCategory from './ModalCategory';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 //Modal
 import Button from '@material-ui/core/Button';
@@ -35,7 +36,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-import { getAllTools, insertTools, getAllCategory, updateTools } from '../../actions/index';
+import { getAllTools, insertTools, getAllCategory, updateTools, deleteTools } from '../../actions/index';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -50,7 +51,7 @@ const useStyles = makeStyles({
   }
 });
 
-function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools }) {
+function Tools({ getAllTools, all_tools, getAllCategory, all_categorys, insertTools, updateTools, deleteTools }) {
   useEffect(() => {
     getAllTools();
     getAllCategory();
@@ -106,16 +107,18 @@ console.log(tools.categoryId)
         categoryId: document.getElementById('categoryId').value       
                 }
       global.data = data
-      updateTools(data)
-      setOpen(false)
+      updateTools(data)       
+      handleClose()
        
 
     }else{      
       insertTools(tools);
       getAllTools();
-      setOpen(false)
+      getAllTools();       
+      handleClose()
 
     }
+     
      
   }
 
@@ -130,7 +133,29 @@ console.log(tools.categoryId)
   }
 
   
- 
+ function toolDelete(id, name){  
+   global.idTools = id
+   Swal.fire({
+    title: 'ATENCION!',
+    text: "Vas a eliminar la herramient:  "+ name,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteTools(id)
+      getAllTools();
+      getAllTools();
+      Swal.fire(
+        'Eliminada!',
+        'Con exito.',
+        'success'
+      )
+    }
+  })
+ }
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -144,7 +169,8 @@ console.log(tools.categoryId)
 
 
   return (
-    <div>
+    <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}> 
+      
     <Toolbar />
     <h5>Herramientas</h5>
     <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
@@ -259,10 +285,11 @@ console.log(tools.categoryId)
      <Table className={classes.table} aria-label="simple table">
        <TableHead>
          <TableRow>
-           <TableCell>Descripción</TableCell>
-           <TableCell align="center">Fecha De Modificación</TableCell>
-           <TableCell align="center">Precio</TableCell>
+           <TableCell>Nombre</TableCell>
+           <TableCell align="center">Descripcion</TableCell>
+           <TableCell align="center">Stock</TableCell>
            <TableCell align="center">Categoria</TableCell>
+           <TableCell align="center">Estado</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
@@ -276,15 +303,18 @@ console.log(tools.categoryId)
              <TableCell align="center">{row.stock}</TableCell>
              <TableCell align="center">{
               all_categorys.map((cat)=>{
-                  return cat.id === row.categoryId ? cat.name : ''
+                  return cat.id === parseFloat(row.categoryId) ? cat.name : ''
                })
              }
+             </TableCell>
+             <TableCell align="center">
+               Estado de la Herram
              </TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={()=>handleOpen(row)}>
                <EditIcon />
              </IconButton>
-             <IconButton aria-label="delete" >
+             <IconButton aria-label="delete" onClick={()=>toolDelete(row.id, row.name)} >
                <DeleteIcon />
              </IconButton>
              </TableCell>
@@ -311,6 +341,7 @@ console.log(tools.categoryId)
   const mapDispatchToProps = dispatch => {
     return {
       getAllTools: () => dispatch(getAllTools()),
+      deleteTools: ( idTools) => dispatch(deleteTools( global.idTools)),
       insertTools: (inputTools) => dispatch(insertTools(inputTools)),
       getAllCategory: () => dispatch(getAllCategory()),
       updateTools: (tools)=> dispatch(updateTools(tools)) 

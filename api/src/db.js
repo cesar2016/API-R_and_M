@@ -42,6 +42,12 @@ Tools.belongsTo(Order);
 
 Tools.belongsTo(Category);
 
+Client.hasMany(Order);
+Order.belongsTo(Client);
+
+Order.belongsToMany(Tools, { through: 'orders_tools' })
+Tools.belongsToMany(Order, { through: 'orders_tools' })
+
 // User.hasMany(Client);
 // Client.belongsTo(User)
 

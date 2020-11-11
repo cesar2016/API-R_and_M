@@ -5,26 +5,34 @@ module.exports = (sequelize) => {
   // defino el modelo
   const Order = sequelize.define('order', {
     dateA: {
-            type: DataTypes.DATEONLY,
-            allowNull: true,
+      type: DataTypes.DATE,
+      allowNull: true,
         },
     dateB: {
-            type: DataTypes.DATEONLY,
-            allowNull: true,
+      type: DataTypes.DATE,
+      allowNull: true,
         },
+    tool: {
+      type: DataTypes.STRING,
+      // allowNull: false
+    },
     commentA: {
       type: DataTypes.STRING,
     },
-    commentB: {
-      type: DataTypes.STRING,
-    },
-    coste: {
+    // commentB: {
+    //   type: DataTypes.STRING,
+    // },
+    price: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      // allowNull: false,
     },
-    status: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+    // status: {
+    //   type: DataTypes.BOOLEAN,
+    //   allowNull: false
+    // },
+    // clientId: {
+    //   type: DataTypes.INTEGER,
+    //   primaryKey: true
+    // }
   });
 };
