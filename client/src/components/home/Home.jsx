@@ -5,25 +5,19 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-<<<<<<< HEAD
+ 
 import Swal from 'sweetalert2';
-=======
-import Swal from 'sweetalert2/src/sweetalert2.js'
->>>>>>> 39c51d252759e77b2b25f2823fbcb1e95558ca8b
-
-
+ 
+ 
+//import Swal from 'sweetalert2/src/sweetalert2.js'
+ 
 // tables
 import clsx from 'clsx';
- 
-
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
- 
- 
-
 import { getAllTools, insertTools, getClient, updateTools, order } from '../../actions/index';
 import { connect } from 'react-redux';
  
