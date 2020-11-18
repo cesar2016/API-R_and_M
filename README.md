@@ -56,13 +56,4 @@ El contenido de `client` fue creado usando: Create React App.
 ### cesars.pro@gmail.com
 
  
-<p align='left'>
-    <img src='https://ibb.co/mH4kD7K' </img>
-</p>
-<p align='left'>
-    <img src='https://ibb.co/HVHtGRF' </img>
-</p>
-<p align='left'>
-    <img src='https://ibb.co/zPXWqBK' </img>
-</p>
- 
+
