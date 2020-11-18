@@ -55,25 +55,14 @@ El contenido de `client` fue creado usando: Create React App.
 
 ### cesars.pro@gmail.com
 
+ 
 <p align='left'>
-    <img src='https://i.postimg.cc/GpmC6TCV/login.png' </img>
+    <img src='https://ibb.co/mH4kD7K' </img>
 </p>
 <p align='left'>
-    <img src='https://i.postimg.cc/W3yfWhNG/Bienvenido.png' </img>
+    <img src='https://ibb.co/HVHtGRF' </img>
 </p>
 <p align='left'>
-    <img src='https://i.postimg.cc/7hTtpwhp/delete-Cliente.png' </img>
+    <img src='https://ibb.co/zPXWqBK' </img>
 </p>
-<p align='left'>
-    <img src='https://i.postimg.cc/zXT8h17t/modif-Cliente.png' </img>
-</p>
-<p align='left'>
-    <img src='https://i.postimg.cc/8k2TsCRf/NuevaCat.png' </img>
-</p>
-<p align='left'>
-    <img src='https://i.postimg.cc/8kJ11v6V/nueva-Orders.png' </img>
-</p>
-<p align='left'>
-    <img src='https://i.postimg.cc/qgVDrSCg/Tabla-Orders.png' </img>
-</p>
-
+ 
