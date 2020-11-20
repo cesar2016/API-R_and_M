@@ -8,30 +8,24 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    lastname: {
+    status: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dni: {
+    species: {
       type: DataTypes.STRING,      
     },
-    email: {
-    	type: DataTypes.TEXT,       
-      unique: {
-        args: true,
-        message: "Email must be unique.",
-    },
-  },
-    phoneA: {
+    
+    type: {
     	type: DataTypes.STRING,
     },    
-    city: {
+    gender: {
     	type: DataTypes.STRING,
     },
-    address:{
+    origin:{
       type: DataTypes.STRING,
     },
-    bussiness: {
+    image: {
     	type: DataTypes.STRING,
     }    
   });

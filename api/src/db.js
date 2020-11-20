@@ -6,7 +6,7 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/mtools`, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/rick`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -32,24 +32,10 @@ sequelize.models = Object.fromEntries(capsEntries);
 //        RELACIONES        |||
 //|||||||||||||||||||||||||||||
 
-const { Client, Tools, Order, Category, User } = sequelize.models;
+const { Client, Episode, } = sequelize.models;
 
-Client.hasMany(Order);
-Order.belongsTo(Client);
-
-Order.hasMany(Tools);
-Tools.belongsTo(Order);
-
-Tools.belongsTo(Category);
-
-Client.hasMany(Order);
-Order.belongsTo(Client);
-
-Order.belongsToMany(Tools, { through: 'orders_tools' })
-Tools.belongsToMany(Order, { through: 'orders_tools' })
-
-// User.hasMany(Client);
-// Client.belongsTo(User)
+Client.hasMany(Episode); //Tiene muchos
+ 
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Client, Tools } = require('./db.js');

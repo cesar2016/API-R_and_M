@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Swal from 'sweetalert2/src/sweetalert2.js'
+import Avatar from '@material-ui/core/Avatar';
 // tables
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,6 +21,9 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
+//Buscador
+import { Autocomplete } from '@material-ui/lab';
+
 //Modal
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -29,10 +33,26 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-import { getClient, deleteClient, updateClient, insertClient } from '../../actions/index';
+import { getClient, deleteClient, updateClient, insertClient, allChar, originChar, serch, reset } from '../../actions/index';
 import { connect } from 'react-redux';
 
-const useStyles = makeStyles({
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
   table: {
     minWidth: 650,
   },
@@ -41,33 +61,60 @@ const useStyles = makeStyles({
   },
   button:{
     marginBottom:12,
+    margin: 3
   }
-});
+}));
 
-function Customers({ getClient, all_client, deleteClient, updateClient, insertClient }) {
+function Customers({ getClient, all_client, deleteClient, updateClient, insertClient, allChar, all_char, originChar, origin_char, serch, reset }) {
   const classes = useStyles();
 
   useEffect(() => {
     getClient();
+    allChar();   
+    addLocation()  
     },[])
 
   const [open, setOpen] = React.useState(false);
-  const [client, setClient] = React.useState({name:'', lastname:"" ,dni:'',phoneA:'', city:'' ,email:'',address:'', bussiness:""});
+  const [client, setClient] = React.useState({name:'', status:"" ,species:'',type:'', gender:'' ,origin:'',image:''});
+  
+  //ESTADOS DEL BUSCADOR
+  const [value, setValue] = React.useState();
+  const [inputValue, setInputValue] = React.useState('');
+
+
+  //OPCIONES DEL BUSCADOR;
+  var options = all_client.map((ele) => {
+    return (
+      ele.name 
+    )
+    
+  })
+  var usuarioBuscado;
+  if(value){
+    usuarioBuscado = all_client.filter((ele) => ele.name == value )
+  }
+
+  const refresh = ()=> {
+    if(value != null || value != undefined){
+      allChar()
+      getClient()
+    }
+  }
 
   const handleOpen = (item) => {
       setClient(item)
       setOpen(true)
   };
   const handleClose = () => {
-    setClient({name:null,
-             lastname:null,
-             dni:null,
-             description:null,
-             phoneA:null,
-             city:null,
-             email:null,
-             address:null,
-             bussiness:null
+    setClient({
+             name:null,
+             status:null,
+             species:null,
+             type:null,
+             gender:null,
+             origin:null,             
+             image:null
+             
             })
     setOpen(false)
   };
@@ -76,19 +123,18 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
 
   const handleSubmit = function(e){
   e.preventDefault();
-  // console.log('El ID De CLIENT', client.id)
+   
 
   if(client.id){
     let customer = {
       id: client.id,
       name: document.getElementById('name').value,
-      lastname: document.getElementById('lastname').value,
-      dni: document.getElementById('dni').value,
-      phoneA: document.getElementById('phoneA').value,
-      city: document.getElementById('city').value,
-      email: document.getElementById('email').value,
-      bussiness: document.getElementById('bussiness').value,
-      address: document.getElementById('address').value
+      status: document.getElementById('status').value,
+      species: document.getElementById('species').value,
+      type: document.getElementById('type').value,
+      gender: document.getElementById('gender').value,
+      origin: document.getElementById('origin').value,     
+      image: document.getElementById('image').value
       }
     global.customer = customer
     updateClient(customer)
@@ -147,22 +193,122 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
     
   }
 
+  function resetDB(){  
+         
+    Swal.fire({
+     title: 'ATENCION!',
+     text: "Quiere resetear los datos de la DB" ,
+     icon: 'warning',
+     showCancelButton: true,
+     confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     confirmButtonText: 'Si, eliminar'
+   }).then((result) => {
+     if (result.isConfirmed) {
+      reset()
+      getClient();
+      getClient();
+       
+       Swal.fire(
+         'Delete!',
+         'Con exito.',
+         'success'
+       )
+     }
+   })
+    
+  }
+
+//Sacando toda la info de los personajes sin 
+var roots = all_char.map(function(num) {
+    return num.results;
+    
+}); 
+
+var char = roots[0] ? roots[0].map(function(personaje) {
+  return personaje;
+  
+}):'Ups! no hay personajes';
+ 
+ 
+const addLocation = ()=>{    
+  for (let j = 0; j < char.length; j++) {
+    global.index = j
+    originChar(j)       
+  
+  }
+
+}
+  
+
+ 
+const insertChar = ()=>{
+ 
+  for (let i = 0; i < char.length; i++) {
+    const date = char[i];
+
+    const dates ={     
+      gender: date.gender,     
+      image: date.image,
+      name: date.name,
+      origin: origin_char[i+1],
+      species: date.species,
+      status: date.status,
+      type: date.type
+    }
+
+    insertClient(dates)    
+
+  }
+
+}
   
   return (
     <div style={{marginTop:'100px', marginLeft:'250px',  marginRight:'20px'}}>
     <Toolbar />
-    <h5>Clientes</h5>
+    <h3>RICK AND MORTY</h3>
     <Breadcrumbs aria-label="breadcrumb" className={classes.marginBreadcumb}>
       <Link color="inherit" href="/" >
-        Inicio
+        Home
       </Link>
-      <Typography color="textPrimary">Clientes</Typography>
+      <Typography color="textPrimary">List Characters</Typography>
     </Breadcrumbs>
+    
+    {/* Buscador de Usuarios */}
+    <div>
+      <Autocomplete
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);          
+          
+        }}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+          serch(options.indexOf(newInputValue)+1)
+          refresh() 
+          
+        }}
+        id="controllable-states-demo"
+        options={options}
+        style={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Search Characters" variant="outlined" />}
+      />
+    </div>
+
+
     <Grid container>
        <Grid item sm={12} align="right">
-        <Button variant="contained" color="primary" className={classes.button} onClick={()=>handleOpen(client)}>
-            Nuevo Cliente
+       <Button variant="contained" color="secundary" className={classes.button} onClick={()=>resetDB()}>
+           RESET DB
           </Button>
+        <Button variant="contained" color="primary" className={classes.button} onClick={()=>handleOpen(client)}>
+           New Characters
+          </Button>
+          <Button variant="contained" color="primary" className={classes.button} onClick={()=>insertChar()}>
+           Add All Characters
+          </Button>
+         
             <Dialog  open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
               <DialogTitle id="form-dialog-title">{client.id ? 'Modificar' : 'Nuevo'} Cliente</DialogTitle>
               <form onSubmit={handleSubmit}>
@@ -174,7 +320,7 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                      margin="dense"
                      id="name"
                      defaultValue={client.name}
-                     label="Nombre/s(*)"
+                     label="NAME"
                      InputLabelProps={{
                         shrink: true,
                       }}
@@ -186,11 +332,11 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                  <Grid item sm={12} md={4}>
                    <TextField
                      autoFocus
-                     defaultValue={client.lastname}
+                     defaultValue={client.status}
                      margin="dense"
-                     id="lastname"
-                     name="lastname"
-                     label="Apellido/s(*)"
+                     id="status"
+                     name="status"
+                     label="STATUS"
                      InputLabelProps={{
                         shrink: true,
                       }}
@@ -202,11 +348,11 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                  <Grid item sm={12} md={4}>
                    <TextField
                      autoFocus
-                     defaultValue={client.dni}
+                     defaultValue={client.species}
                      margin="dense"
-                     id="dni"
-                     name="dni"
-                     label="Dni(*)"
+                     id="species"
+                     name="species"
+                     label="SPECIES"
                      type="text"
                      InputLabelProps={{
                         shrink: true,
@@ -218,25 +364,10 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                  <Grid item sm={12} md={4}>
                  <TextField
                    autoFocus
-                   defaultValue={client.email}
+                   defaultValue={client.type}
                    margin="dense"
-                   id="email"
-                   label="Email(*)"
-                   type="email"
-                   InputLabelProps={{
-                      shrink: true,
-                    }}
-                    fullWidth
-                    onChange={handleChangeClient}
-                 />
-                 </Grid>
-                 <Grid item sm={12} md={4}>
-                 <TextField
-                   autoFocus
-                   defaultValue={client.address}
-                   margin="dense"
-                   id="address"
-                   label="Dirección(*)"
+                   id="type"
+                   label="TYPE"
                    type="text"
                    InputLabelProps={{
                       shrink: true,
@@ -248,27 +379,10 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                  <Grid item sm={12} md={4}>
                  <TextField
                    autoFocus
-                   defaultValue={client.phoneA}
+                   defaultValue={client.gender}
                    margin="dense"
-                   id="phoneA"
-                   name="phoneA"
-                   label="Teléfono(*)"
-                   type="number"
-                   InputLabelProps={{
-                      shrink: true,
-                    }}
-                    fullWidth
-                    onChange={handleChangeClient}
-                 />
-                 </Grid>
-                 <Grid item sm={12} md={4}>
-                 <TextField
-                   autoFocus
-                   defaultValue={client.city}
-                   margin="dense"
-                   id="city"
-                   name="city"
-                   label="Ciudad(*)"
+                   id="gender"
+                   label="GENDER"
                    type="text"
                    InputLabelProps={{
                       shrink: true,
@@ -280,11 +394,11 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                  <Grid item sm={12} md={4}>
                  <TextField
                    autoFocus
-                   defaultValue={client.bussiness}
+                   defaultValue={client.origin}
                    margin="dense"
-                   id="bussiness"
-                   name="bussiness"
-                   label="Empresa(*)"
+                   id="origin"
+                   name="origin"
+                   label="ORIGIN"
                    type="text"
                    InputLabelProps={{
                       shrink: true,
@@ -293,6 +407,22 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
                     onChange={handleChangeClient}
                  />
                  </Grid>
+                 <Grid item sm={12} md={4}>
+                 <TextField
+                   autoFocus
+                   defaultValue={client.image}
+                   margin="dense"
+                   id="image"
+                   name="image"
+                   label="URL IMAGE"
+                   type="text"
+                   InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    onChange={handleChangeClient}
+                 />
+                 </Grid>                  
               </Grid>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
@@ -311,29 +441,32 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
      <Table className={classes.table} aria-label="simple table">
        <TableHead>
          <TableRow>
-           <TableCell>Nombre y Apellido</TableCell>
-           <TableCell align="center">DNI</TableCell>
-           <TableCell align="center">Teléfono</TableCell>
-           <TableCell align="center">Email</TableCell>
-           <TableCell align="center">Dirección</TableCell>           
-           <TableCell align="center">Ciudad</TableCell>
-           <TableCell align="center">Empresa</TableCell>
+           <TableCell>Name</TableCell>
+           <TableCell align="center">Status</TableCell>
+           <TableCell align="center">Species</TableCell>
+           <TableCell align="center">Type</TableCell>                      
+           <TableCell align="center">Geneder</TableCell>
+           <TableCell align="center">Origin</TableCell>
+           <TableCell align="center">Image</TableCell>
            <TableCell align="center">Acciones</TableCell>
          </TableRow>
        </TableHead>
        <TableBody>
        {all_client ? all_client.map((row) => (
-           <TableRow key={row.name}>
-             {/* {console.log("esto es row", row)} */}
+           <TableRow key={row.name}>             
              <TableCell component="th" scope="row">
-               {row.name} {row.lastname}
+              <strong>{row.name}</strong> 
              </TableCell>
-             <TableCell align="center">{row.dni}</TableCell>
-             <TableCell align="center">{row.phoneA}</TableCell>
-             <TableCell align="center">{row.email}</TableCell>
-             <TableCell align="center">{row.address}</TableCell>
-             <TableCell align="center">{row.city}</TableCell>
-             <TableCell align="center">{row.bussiness}</TableCell>
+             <TableCell align="center">{row.status}</TableCell>
+             <TableCell align="center">{row.species}</TableCell>
+             <TableCell align="center">{row.type}</TableCell> 
+             <TableCell align="center">{row.gender}</TableCell>             
+             <TableCell align="center">{row.origin}</TableCell>
+             <TableCell align="center">
+              <div align="center" className={classes.root}>
+                <Avatar alt="Remy Sharp" src={row.image} className={classes.large} />
+              </div>
+             </TableCell>
              <TableCell align="center">
              <IconButton aria-label="edit" onClick={() => handleOpen(row)}>
                <EditIcon />
@@ -365,13 +498,19 @@ function Customers({ getClient, all_client, deleteClient, updateClient, insertCl
       getClient: () => dispatch(getClient()),
       deleteClient: (idClient) => dispatch(deleteClient(global.idClient)),
       insertClient: (client) => dispatch(insertClient(client)),
-      updateClient: (customer) => dispatch(updateClient(global.customer))
+      updateClient: (customer) => dispatch(updateClient(global.customer)),
+      allChar: () => dispatch(allChar()),
+      originChar: (index) => dispatch(originChar(global.index)),
+      serch: (client) => dispatch(serch(client)),
+      reset: () => dispatch(reset())
     }
   }
 
   const mapStateToProps = state => {
     return {
       all_client: state.all_client,
+      all_char: state.all_char,
+      origin_char: state.origin_char
     }
   }
 

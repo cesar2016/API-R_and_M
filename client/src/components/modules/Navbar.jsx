@@ -19,8 +19,7 @@ import Divider from '@material-ui/core/Divider';
 import BuildIcon from '@material-ui/icons/Build';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
-import Avatar from '@material-ui/core/Avatar';
-import { loginUserCookie } from '../../actions/index';
+import Avatar from '@material-ui/core/Avatar'; 
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ReactLoading from 'react-loading';
@@ -30,7 +29,7 @@ import Swal from 'sweetalert2';
 const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    background:'#66CC66'
+    background:'#ff1744'
   },
   list: {
     width: 250,
@@ -45,21 +44,9 @@ function ListItemLink(props) {
 }
 
 
-function Header({loginUserCookie,users }) {
+function Header({users }) {
   const history = useHistory();
-
-  useEffect(() => {
-    loginUserCookie()
-  },[])
-  
-  if(users == 0){
-    Swal.fire({
-      icon: 'error',
-      title: 'Error! Debes iniciar sesion para acceder!',
-      showConfirmButton: true,
-    });
-    history.push('/')
-  }
+ 
 
 
   
@@ -90,25 +77,7 @@ function Header({loginUserCookie,users }) {
       className={classes.list}
       role="presentation"
     >
-          <List>
-            <ListItemLink href="/home">
-              <ListItemIcon className={classes.topografy} ><HomeIcon/></ListItemIcon>
-              <ListItemText primary='Inicio' />
-            </ListItemLink>
-          </List>
-          <Divider/>
-          <List>
-            <ListItemLink href="/home/customers">
-              <ListItemIcon><PeopleIcon/></ListItemIcon>
-              <ListItemText primary='Clientes' />
-            </ListItemLink>
-          </List>
-          <List>
-            <ListItemLink href="/home/tools">
-              <ListItemIcon><BuildIcon/></ListItemIcon>
-              <ListItemText primary='Herramientas' />
-            </ListItemLink>
-          </List>
+         
     </div>
 )
 
@@ -140,7 +109,7 @@ function Header({loginUserCookie,users }) {
                 //onClick={handleProfileMenuOpen}
                 color="inherit"
               > 
-              <Avatar alt="Remy Sharp" src="https://i.postimg.cc/q7NTv10G/jdf.jpg" className={classes.large} />
+              <img src='https://lh3.googleusercontent.com/proxy/R8SVmtLp2kJAvwd-c0NYfbzDswTWuDlRoO0pF3gz65HdGA4AMzh4hga4wRoukX3RQwHwTlLYSLycEM8cBNr_qZeJ1yLqlG4NE32gAMxf_Xremd0s9tHgqMAgcq76ablL' width="160px" height="50px" />
               </IconButton>              
             </Grid>
             <Grid item align="right" xs={2}>
@@ -154,8 +123,8 @@ function Header({loginUserCookie,users }) {
               //onClick={handleProfileMenuOpen}
               color="inherit"
             >                     
-              <Avatar className={classes.large} alt="Cindy Baker" src="https://cdn.iconscout.com/icon/free/png-512/laptop-user-1-1179329.png" /> 
-              &nbsp; <small style={{"color": "#000", "fontSize": "13px"}}>Welcome! <br/> 
+              <Avatar className={classes.large} alt="Cindy Baker" src="https://icon-library.com/images/developers_colorai-02-512_45584.png" /> 
+              &nbsp; <small style={{"color": "#fff", "fontSize": "13px"}}>Welcome! <br/> 
               <b>ADMIN</b>
               </small>      
             </IconButton>   
@@ -171,7 +140,7 @@ function Header({loginUserCookie,users }) {
 }
   const mapDispatchToProps = dispatch => {
     return {
-      loginUserCookie: () => dispatch(loginUserCookie())
+       
     }
   }
   

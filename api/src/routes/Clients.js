@@ -34,19 +34,18 @@ console.log(req.body)
 
 
 server.put('/updateClient/:id', (req, res) => {
-	const { name, lastname, dni, email, phoneA, city, address, bussiness } = req.body
-    console.log(name, lastname, dni, email, phoneA, city, address, bussiness )
+	const { name, status, species , type, gender, origin, image } = req.body
+    //console.log(name, lastname, dni, email, phoneA, city, address, bussiness )
     Client.findOne({where: {id: req.params.id}})
     .then(cliente => {
 		cliente.update({
 			name,
-			lastname, 
-			dni, 
-			email, 
-			phoneA, 
-			city, 
-			address, 
-			bussiness
+			status, 
+			species, 
+			type, 
+			gender, 
+			origin, 
+			image			 
         })
         return cliente
 	})
@@ -67,6 +66,20 @@ server.delete('/delete/:id', (req, res) => {
 		})
 		.catch(() => res.status(404))
 })
+
+//GET --> Obtener una Solo personaje
+server.get('/search/:id', (req, res, next) => {
+	console.log(req.params.id)
+	Client.findAll({
+	  where: {
+		id: req.params.id
+	  }
+	})
+	.then(per => {
+	  res.send(per)
+	})
+	.catch(next)
+  })
 
 
 module.exports = server;

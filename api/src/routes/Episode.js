@@ -1,24 +1,24 @@
 const server = require('express').Router();
-const { Category } = require('../db.js');
+const { Episode } = require('../db.js');
 
 ////////////////////////////
 //    		/category	////
 ////////////////////////////
 
 server.post('/', (req, res) => {
-    Category.create(req.body)
+    Episode.create(req.body)
     .then(cat => res.send(cat))
     .catch(err => console.log(err))
 })
 
 server.get('/', (req, res) => {
-    Category.findAll()
+    Episode.findAll()
     .then(cat => res.send(cat).status(200))
     .catch(err => console.log(err))
 })
 
 server.delete('/:id', (req, res) => {
-    Category.findOne({
+    Episode.findOne({
         where: {
             id: req.params.id
         }
