@@ -1,5 +1,5 @@
 # API Rick And Morty
-- En esta app, se consume la API res de la seria Rick and Morty guardan la info obtenida en base de datos.
+- En esta app, se consume la API REST de la seria Rick and Morty guardan la info obtenida en base de datos.
 
  
 
