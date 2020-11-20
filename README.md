@@ -1,14 +1,11 @@
-# MARKET TOOLS
-- Aplicacion web hecha a medida, pedida por empresa que se dedica a arrendar herramientas de todo tipo. Con esta cencilla pero potente app el cliente a logrado llevar estricto contro del alquiler de sus herraientas.
+# API Rick And Morty
+- En esta app, se consume la API res de la seria Rick and Morty guardan la info obtenida en base de datos.
 
-# Se ha logrado resolver con MARKET TOOLS:
-* Control de Stock
-* Control de Cuentas Ctes de clientes
-* Control de vencimientos (alertas indicando fechas de caducidad de alquileres)
-* Carga y busqueda agil de clientes y herramientas.
+ 
 
 ## Objetivos del Proyecto
 
+- Generacion de CRUD con los tres Endpints
 - Construir una App JavaScript React desde cero.
 - Afirmar y conectar los conceptos de desarrollo.
 - Aprender mejores prácticas.
@@ -55,5 +52,20 @@ El contenido de `client` fue creado usando: Create React App.
 
 ### cesars.pro@gmail.com
 
- 
+
+ <p align='left'>
+    <img src='https://ibb.co/d0yMN2T' </img>
+</p>
+<p align='left'>
+    <img src='https://ibb.co/3fPLv07' </img>
+</p>
+<p align='left'>
+    <img src='https://ibb.co/42sZGKk' </img>
+</p>
+<p align='left'>
+    <img src='https://ibb.co/D5ScCVk' </img>
+</p>
+<p align='left'>
+    <img src='https://ibb.co/vmgyN8T' </img>
+</p>
 
