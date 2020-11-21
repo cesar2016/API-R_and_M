@@ -1,3 +1,19 @@
+<p align='center'>
+    <img src='https://i.ibb.co/Z6CXQ8j/img1.png' </img>
+</p>
+<p align='center'>
+    <img src='https://i.ibb.co/rbX13Zm/img2.png' </img>
+</p>
+<p align='center'>
+    <img src='https://i.ibb.co/pQWv8bq/img3.png' </img>
+</p>
+<p align='center'>
+    <img src='https://i.ibb.co/BqSWZzj/img4.png' </img>
+</p>
+<p align='center'>
+    <img src='https://i.ibb.co/q9XqHwc/img5.png' </img>
+</p>
+
 # API Rick And Morty
 - En esta app, se consume la API REST de la seria Rick and Morty guardan la info obtenida en base de datos.
 
@@ -53,19 +69,5 @@ El contenido de `client` fue creado usando: Create React App.
 ### cesars.pro@gmail.com
 
 
- <p align='center'>
-    <img src='https://i.ibb.co/Z6CXQ8j/img1.png' </img>
-</p>
-<p align='center'>
-    <img src='https://i.ibb.co/rbX13Zm/img2.png' </img>
-</p>
-<p align='center'>
-    <img src='https://i.ibb.co/pQWv8bq/img3.png' </img>
-</p>
-<p align='center'>
-    <img src='https://i.ibb.co/BqSWZzj/img4.png' </img>
-</p>
-<p align='center'>
-    <img src='https://i.ibb.co/q9XqHwc/img5.png' </img>
-</p>
+ 
 
